@@ -27,7 +27,7 @@ HEAT_TECHS = [
 ]
 
 KWARG_TYPES = {
-    "country": ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'ES', 'FR', 'GB', 'GR',
+    "country": ['AT', 'BE', 'BG', 'CL', 'CY', 'CZ', 'DE', 'DK', 'ES', 'FR', 'GB', 'GR',
        'HU', 'IE', 'IT', 'NL', 'NO', 'PL', 'RS', 'SE', 'SI', 'XX'], # country code used for the choice of the building parameters
     "n_storey": "NOT_IMPLEMENTED",  # number of storeys in the building
     "a_ref_app": float,  # living area of a single flat
