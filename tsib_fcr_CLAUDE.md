@@ -466,8 +466,8 @@ def simulate_archetype(
 - [x] **1.2** Agregar `KWARG_DEFAULTS_CL` y aplicarlo cuando `country == 'CL'`
 - [x] **1.3** Agregar bloque de override U-values al final de `_get_fabric`
 - [x] **2** Crear `tsib/data/episcope/CL_episcope.csv` con las 27 filas
-- [ ] **3** Crear `tsib/weather/chile.py` con `bd_tmy_to_tsib`
-- [ ] **3** Exponer `bd_tmy_to_tsib` en `tsib/__init__.py`
+- [x] **3** Crear `tsib/weather/chile.py` con `bd_tmy_to_tsib`
+- [x] **3** Exponer `bd_tmy_to_tsib` en `tsib/__init__.py`
 - [ ] **4** Verificar que HiGHS o CBC esté instalado y accesible por Pyomo
 - [ ] **5** Crear `test/test_chile.py` y confirmar que los 3 tests pasan
 - [ ] **6** Bump de versión en `setup.py` / `pyproject.toml` a `0.2.0-cl`
