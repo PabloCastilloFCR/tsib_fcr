@@ -95,6 +95,12 @@ KWARG_TYPES = {
     "roof_refurbished": "NOT_IMPLEMENTED",  # if the roof area has already gotton an additional insulation
     "costdata": str,  # file identifier with the related cost data
     "ventControl": bool, # if the ventilation system can be smart controlled
+    "U_Wall_1": float,
+    "U_Roof_1": float,
+    "U_Floor_1": float,
+    "U_Window_1": float,
+    "n_Infiltration": float,
+    "g_gl_n": float,
 }
 
 KWARG_DEFAULTS_CL = {
@@ -641,6 +647,10 @@ class BuildingConfiguration(object):
             )
         # force_refurbishment to ID entries
         self.IDentries['force_refurbishment'] = cfg['force_refurbishment']
+
+        for _key in ["U_Wall_1", "U_Roof_1", "U_Floor_1", "U_Window_1", "n_Infiltration", "g_gl_n"]:
+            if _key in kwgs:
+                cfg[_key] = float(kwgs[_key])
 
         return cfg
 

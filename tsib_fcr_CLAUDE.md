@@ -461,8 +461,8 @@ def simulate_archetype(
 ## 8. Checklist de implementación
 
 - [x] **1.1** Agregar `'CL'` a `KWARG_TYPES["country"]` en `buildingconfig.py`
-- [ ] **1.2** Agregar `KWARG_DEFAULTS_CL` y aplicarlo cuando `country == 'CL'`
-- [ ] **1.3** Agregar bloque de override U-values al final de `_get_fabric`
+- [x] **1.2** Agregar `KWARG_DEFAULTS_CL` y aplicarlo cuando `country == 'CL'`
+- [x] **1.3** Agregar bloque de override U-values al final de `_get_fabric`
 - [ ] **2** Crear `tsib/data/episcope/CL_episcope.csv` con las 27 filas
 - [ ] **3** Crear `tsib/weather/chile.py` con `bd_tmy_to_tsib`
 - [ ] **3** Exponer `bd_tmy_to_tsib` en `tsib/__init__.py`

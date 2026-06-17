@@ -30,8 +30,8 @@ python -c "from pyomo.contrib import appsi; s = appsi.solvers.Highs(); print(s.a
 | # | Task | File | Status |
 |---|------|------|--------|
 | 1.1 | Add `'CL'` to `KWARG_TYPES["country"]` | `tsib/buildingconfig.py:30` | ✅ |
-| 1.2 | Add `KWARG_DEFAULTS_CL` + apply when `country=='CL'` | `tsib/buildingconfig.py:100+` | ❌ |
-| 1.3 | U-value override block at end of `_get_fabric` | `tsib/buildingconfig.py:602` | ❌ |
+| 1.2 | Add `KWARG_DEFAULTS_CL` + apply when `country=='CL'` | `tsib/buildingconfig.py:100+` | ✅ |
+| 1.3 | U-value override block at end of `_get_fabric` | `tsib/buildingconfig.py:602` | ✅ |
 | 2 | Create `CL_episcope.csv` with 27 archetypes | `tsib/data/episcope/CL_episcope.csv` | ❌ |
 | 3a | Create `tsib/weather/chile.py` with `bd_tmy_to_tsib` | `tsib/weather/chile.py` | ❌ |
 | 3b | Export `bd_tmy_to_tsib` from package | `tsib/__init__.py` | ❌ |
