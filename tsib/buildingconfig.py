@@ -97,6 +97,18 @@ KWARG_TYPES = {
     "ventControl": bool, # if the ventilation system can be smart controlled
 }
 
+KWARG_DEFAULTS_CL = {
+    "country": "CL",
+    "buildingYear": 1990,
+    "comfortT_lb": 18.0,
+    "comfortT_ub": 26.0,
+    "n_persons": 3,
+    "existingHeatSupply": "Electric heater",
+    "hotWaterElec": False,
+    "nightReduction": False,
+    "occControl": False,
+}
+
 KWARG_DEFAULTS = {
     "country": 'DE',
     "roofOrientation": 135.0,  # roof azimuth with 180 as south
@@ -229,6 +241,10 @@ class BuildingConfiguration(object):
 
         # fill some of the other kwargs with default values
         self.inputKwargs = copy.deepcopy(kwargs)
+        if self.inputKwargs.get("country") == "CL":
+            for k, v in KWARG_DEFAULTS_CL.items():
+                if k not in self.inputKwargs:
+                    self.inputKwargs[k] = v
         for def_kwarg in KWARG_DEFAULTS:
             if not def_kwarg in self.inputKwargs:
                 self.inputKwargs[def_kwarg] = KWARG_DEFAULTS[def_kwarg]
