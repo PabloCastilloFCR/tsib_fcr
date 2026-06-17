@@ -33,7 +33,7 @@ python -c "from pyomo.contrib import appsi; s = appsi.solvers.Highs(); print(s.a
 | 2 | Create `CL_episcope.csv` with 27 archetypes | `tsib/data/episcope/CL_episcope.csv` | ✅ |
 | 3a | Create `tsib/weather/chile.py` with `bd_tmy_to_tsib` | `tsib/weather/chile.py` | ✅ |
 | 3b | Export `bd_tmy_to_tsib` from package | `tsib/__init__.py` | ✅ |
-| 4 | Verify HiGHS solver works | env | ❌ |
+| 4 | Verify HiGHS solver works | env | ✅ |
 | 5 | Create `test/test_chile.py` (3 smoke tests) | `test/test_chile.py` | ❌ |
 | 6 | Bump version to `0.2.0-cl`, update package name | `setup.py` | ❌ |
 

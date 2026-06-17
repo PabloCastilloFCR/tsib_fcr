@@ -468,7 +468,7 @@ def simulate_archetype(
 - [x] **2** Crear `tsib/data/episcope/CL_episcope.csv` con las 27 filas
 - [x] **3** Crear `tsib/weather/chile.py` con `bd_tmy_to_tsib`
 - [x] **3** Exponer `bd_tmy_to_tsib` en `tsib/__init__.py`
-- [ ] **4** Verificar que HiGHS o CBC esté instalado y accesible por Pyomo
+- [x] **4** Verificar que HiGHS o CBC esté instalado y accesible por Pyomo
 - [ ] **5** Crear `test/test_chile.py` y confirmar que los 3 tests pasan
 - [ ] **6** Bump de versión en `setup.py` / `pyproject.toml` a `0.2.0-cl`
 - [ ] **6** Actualizar `README.md` con sección "Chile support" y nota sobre solver
