@@ -285,6 +285,10 @@ class BuildingConfiguration(object):
             raw = pd.read_csv(
                 os.path.join(tsib.data.PATH, "episcope", "episcope.csv"), index_col=1,
             )
+            cl_path = os.path.join(tsib.data.PATH, "episcope", "CL_episcope.csv")
+            if os.path.exists(cl_path):
+                cl_raw = pd.read_csv(cl_path, index_col=0)
+                raw = pd.concat([raw, cl_raw])
             # reduce to the country list of buildings
             self.iwu_bdgs = raw
 
@@ -648,9 +652,17 @@ class BuildingConfiguration(object):
         # force_refurbishment to ID entries
         self.IDentries['force_refurbishment'] = cfg['force_refurbishment']
 
-        for _key in ["U_Wall_1", "U_Roof_1", "U_Floor_1", "U_Window_1", "n_Infiltration", "g_gl_n"]:
-            if _key in kwgs:
-                cfg[_key] = float(kwgs[_key])
+        _u_kwarg_to_cfg = {
+            "U_Wall_1":      "U_Wall_1",
+            "U_Roof_1":      "U_Roof_1",
+            "U_Floor_1":     "U_Floor_1",
+            "U_Window_1":    "U_Window",          # model reads cfg["U_Window"]
+            "n_Infiltration":"n_air_infiltration", # model reads cfg["n_air_infiltration"]
+            "g_gl_n":        "g_gl_n_Window",     # model reads cfg["g_gl_n_Window"]
+        }
+        for _kwarg_key, _cfg_key in _u_kwarg_to_cfg.items():
+            if _kwarg_key in kwgs:
+                cfg[_cfg_key] = float(kwgs[_kwarg_key])
 
         return cfg
 

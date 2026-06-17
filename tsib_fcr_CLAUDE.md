@@ -114,7 +114,7 @@ n_Persons_ref, q_H_nd
 
 | Column | Description | Notes |
 |---|---|---|
-| `Code_BuildingVariant` | Archetype ID, e.g. `PT.SFH.preN.mad` | Must be unique |
+| `Code_BuildingVariant` | Archetype ID, e.g. `CL.SFH.preN.mad` | Must be unique |
 | `Country` | `CL` | All rows |
 | `Year1_Begin` / `Year1_End` | Construction year range | Used for indirect archetype selection |
 | `BuildingType` | `SFH` / `MFH` / `AB` | Matches tsib building type names |
@@ -151,36 +151,38 @@ Use `ceiling_height_m = 2.4` for Chilean residential stock.
 
 ```
 Code_BuildingVariant, Country, Year1_Begin, Year1_End, BuildingType, n_Storey, A_C_Ref, A_Roof_1, A_Wall_1, A_Floor_1, A_Window_1, U_Roof_1, U_Wall_1, U_Floor_1, U_Window_1, g_gl_n, n_Infiltration, n_Persons_ref, q_H_nd
-PT.SFH.preN.mad, CL, 1900, 1999, SFH, 1, 60, 60, 57.6, 60, 8.6, 2.5, 2.7, 1.4, 5.8, 0.87, 0.80, 3, 120
-PT.SFH.preN.lad, CL, 1900, 1999, SFH, 1, 60, 60, 57.6, 60, 8.6, 2.5, 2.3, 1.4, 5.8, 0.75, 0.50, 3, 100
-PT.SFH.preN.hor, CL, 1900, 1999, SFH, 1, 60, 60, 57.6, 60, 8.6, 2.5, 3.4, 1.4, 5.8, 0.75, 0.30, 3, 110
-PT.SFH.intN.mad, CL, 2000, 2015, SFH, 1, 65, 65, 62.4, 65, 9.4, 1.5, 1.9, 0.8, 3.5, 0.75, 0.60, 3, 80
-PT.SFH.intN.lad, CL, 2000, 2015, SFH, 1, 65, 65, 62.4, 65, 9.4, 1.5, 1.9, 0.8, 3.5, 0.75, 0.50, 3, 75
-PT.SFH.intN.hor, CL, 2000, 2015, SFH, 1, 65, 65, 62.4, 65, 9.4, 1.5, 1.9, 0.8, 3.5, 0.75, 0.30, 3, 72
-PT.SFH.DS50.mad, CL, 2016, 2030, SFH, 2, 70, 35, 67.2, 35, 10.1, 0.6, 0.6, 0.5, 2.8, 0.60, 0.50, 3, 40
-PT.SFH.DS50.lad, CL, 2016, 2030, SFH, 2, 70, 35, 67.2, 35, 10.1, 0.6, 0.6, 0.5, 2.8, 0.60, 0.40, 3, 38
-PT.SFH.DS50.hor, CL, 2016, 2030, SFH, 2, 70, 35, 67.2, 35, 10.1, 0.6, 0.6, 0.5, 2.8, 0.60, 0.25, 3, 36
-PT.MFH.preN.mad, CL, 1900, 1999, MFH, 4, 55, 14, 52.8, 14, 9.0, 2.5, 2.7, 1.4, 5.8, 0.87, 0.70, 3, 130
-PT.MFH.preN.lad, CL, 1900, 1999, MFH, 4, 55, 14, 52.8, 14, 9.0, 2.5, 2.3, 1.4, 5.8, 0.75, 0.45, 3, 105
-PT.MFH.preN.hor, CL, 1900, 1999, MFH, 4, 55, 14, 52.8, 14, 9.0, 2.5, 3.4, 1.4, 5.8, 0.75, 0.25, 3, 115
-PT.MFH.intN.mad, CL, 2000, 2015, MFH, 4, 60, 15, 57.6, 15, 9.8, 1.5, 1.9, 0.8, 3.5, 0.75, 0.55, 3, 85
-PT.MFH.intN.lad, CL, 2000, 2015, MFH, 4, 60, 15, 57.6, 15, 9.8, 1.5, 1.9, 0.8, 3.5, 0.75, 0.45, 3, 78
-PT.MFH.intN.hor, CL, 2000, 2015, MFH, 4, 60, 15, 57.6, 15, 9.8, 1.5, 1.9, 0.8, 3.5, 0.75, 0.25, 3, 74
-PT.MFH.DS50.mad, CL, 2016, 2030, MFH, 4, 65, 16, 62.4, 16, 10.6, 0.6, 0.6, 0.5, 2.8, 0.60, 0.45, 3, 42
-PT.MFH.DS50.lad, CL, 2016, 2030, MFH, 4, 65, 16, 62.4, 16, 10.6, 0.6, 0.6, 0.5, 2.8, 0.60, 0.35, 3, 40
-PT.MFH.DS50.hor, CL, 2016, 2030, MFH, 4, 65, 16, 62.4, 16, 10.6, 0.6, 0.6, 0.5, 2.8, 0.60, 0.22, 3, 38
-PT.AB.preN.mad,  CL, 1900, 1999, AB,  12, 52, 4,  49.9, 4,  8.5, 2.5, 2.7, 1.4, 5.8, 0.87, 0.60, 3, 125
-PT.AB.preN.lad,  CL, 1900, 1999, AB,  12, 52, 4,  49.9, 4,  8.5, 2.5, 2.3, 1.4, 5.8, 0.75, 0.35, 3, 100
-PT.AB.preN.hor,  CL, 1900, 1999, AB,  12, 52, 4,  49.9, 4,  8.5, 2.5, 3.4, 1.4, 5.8, 0.75, 0.20, 3, 112
-PT.AB.intN.mad,  CL, 2000, 2015, AB,  12, 58, 5,  55.7, 5,  9.5, 1.5, 1.9, 0.8, 3.5, 0.75, 0.45, 3, 82
-PT.AB.intN.lad,  CL, 2000, 2015, AB,  12, 58, 5,  55.7, 5,  9.5, 1.5, 1.9, 0.8, 3.5, 0.75, 0.35, 3, 76
-PT.AB.intN.hor,  CL, 2000, 2015, AB,  12, 58, 5,  55.7, 5,  9.5, 1.5, 1.9, 0.8, 3.5, 0.75, 0.18, 3, 72
-PT.AB.DS50.mad,  CL, 2016, 2030, AB,  14, 62, 4,  59.5, 4,  10.1, 0.6, 0.6, 0.5, 2.8, 0.60, 0.35, 3, 40
-PT.AB.DS50.lad,  CL, 2016, 2030, AB,  14, 62, 4,  59.5, 4,  10.1, 0.6, 0.6, 0.5, 2.8, 0.60, 0.28, 3, 38
-PT.AB.DS50.hor,  CL, 2016, 2030, AB,  14, 62, 4,  59.5, 4,  10.1, 0.6, 0.6, 0.5, 2.8, 0.60, 0.18, 3, 35
+CL.SFH.preN.mad, CL, 1900, 1999, SFH, 1, 60, 60, 57.6, 60, 8.6, 2.5, 2.7, 1.4, 5.8, 0.87, 0.80, 3, 120
+CL.SFH.preN.lad, CL, 1900, 1999, SFH, 1, 60, 60, 57.6, 60, 8.6, 2.5, 2.3, 1.4, 5.8, 0.75, 0.50, 3, 100
+CL.SFH.preN.hor, CL, 1900, 1999, SFH, 1, 60, 60, 57.6, 60, 8.6, 2.5, 3.4, 1.4, 5.8, 0.75, 0.30, 3, 110
+CL.SFH.intN.mad, CL, 2000, 2015, SFH, 1, 65, 65, 62.4, 65, 9.4, 1.5, 1.9, 0.8, 3.5, 0.75, 0.60, 3, 80
+CL.SFH.intN.lad, CL, 2000, 2015, SFH, 1, 65, 65, 62.4, 65, 9.4, 1.5, 1.9, 0.8, 3.5, 0.75, 0.50, 3, 75
+CL.SFH.intN.hor, CL, 2000, 2015, SFH, 1, 65, 65, 62.4, 65, 9.4, 1.5, 1.9, 0.8, 3.5, 0.75, 0.30, 3, 72
+CL.SFH.DS50.mad, CL, 2016, 2030, SFH, 2, 70, 35, 67.2, 35, 10.1, 0.6, 0.6, 0.5, 2.8, 0.60, 0.50, 3, 40
+CL.SFH.DS50.lad, CL, 2016, 2030, SFH, 2, 70, 35, 67.2, 35, 10.1, 0.6, 0.6, 0.5, 2.8, 0.60, 0.40, 3, 38
+CL.SFH.DS50.hor, CL, 2016, 2030, SFH, 2, 70, 35, 67.2, 35, 10.1, 0.6, 0.6, 0.5, 2.8, 0.60, 0.25, 3, 36
+CL.MFH.preN.mad, CL, 1900, 1999, MFH, 4, 55, 14, 52.8, 14, 9.0, 2.5, 2.7, 1.4, 5.8, 0.87, 0.70, 3, 130
+CL.MFH.preN.lad, CL, 1900, 1999, MFH, 4, 55, 14, 52.8, 14, 9.0, 2.5, 2.3, 1.4, 5.8, 0.75, 0.45, 3, 105
+CL.MFH.preN.hor, CL, 1900, 1999, MFH, 4, 55, 14, 52.8, 14, 9.0, 2.5, 3.4, 1.4, 5.8, 0.75, 0.25, 3, 115
+CL.MFH.intN.mad, CL, 2000, 2015, MFH, 4, 60, 15, 57.6, 15, 9.8, 1.5, 1.9, 0.8, 3.5, 0.75, 0.55, 3, 85
+CL.MFH.intN.lad, CL, 2000, 2015, MFH, 4, 60, 15, 57.6, 15, 9.8, 1.5, 1.9, 0.8, 3.5, 0.75, 0.45, 3, 78
+CL.MFH.intN.hor, CL, 2000, 2015, MFH, 4, 60, 15, 57.6, 15, 9.8, 1.5, 1.9, 0.8, 3.5, 0.75, 0.25, 3, 74
+CL.MFH.DS50.mad, CL, 2016, 2030, MFH, 4, 65, 16, 62.4, 16, 10.6, 0.6, 0.6, 0.5, 2.8, 0.60, 0.45, 3, 42
+CL.MFH.DS50.lad, CL, 2016, 2030, MFH, 4, 65, 16, 62.4, 16, 10.6, 0.6, 0.6, 0.5, 2.8, 0.60, 0.35, 3, 40
+CL.MFH.DS50.hor, CL, 2016, 2030, MFH, 4, 65, 16, 62.4, 16, 10.6, 0.6, 0.6, 0.5, 2.8, 0.60, 0.22, 3, 38
+CL.AB.preN.mad,  CL, 1900, 1999, AB,  12, 52, 4,  49.9, 4,  8.5, 2.5, 2.7, 1.4, 5.8, 0.87, 0.60, 3, 125
+CL.AB.preN.lad,  CL, 1900, 1999, AB,  12, 52, 4,  49.9, 4,  8.5, 2.5, 2.3, 1.4, 5.8, 0.75, 0.35, 3, 100
+CL.AB.preN.hor,  CL, 1900, 1999, AB,  12, 52, 4,  49.9, 4,  8.5, 2.5, 3.4, 1.4, 5.8, 0.75, 0.20, 3, 112
+CL.AB.intN.mad,  CL, 2000, 2015, AB,  12, 58, 5,  55.7, 5,  9.5, 1.5, 1.9, 0.8, 3.5, 0.75, 0.45, 3, 82
+CL.AB.intN.lad,  CL, 2000, 2015, AB,  12, 58, 5,  55.7, 5,  9.5, 1.5, 1.9, 0.8, 3.5, 0.75, 0.35, 3, 76
+CL.AB.intN.hor,  CL, 2000, 2015, AB,  12, 58, 5,  55.7, 5,  9.5, 1.5, 1.9, 0.8, 3.5, 0.75, 0.18, 3, 72
+CL.AB.DS50.mad,  CL, 2016, 2030, AB,  14, 62, 4,  59.5, 4,  10.1, 0.6, 0.6, 0.5, 2.8, 0.60, 0.35, 3, 40
+CL.AB.DS50.lad,  CL, 2016, 2030, AB,  14, 62, 4,  59.5, 4,  10.1, 0.6, 0.6, 0.5, 2.8, 0.60, 0.28, 3, 38
+CL.AB.DS50.hor,  CL, 2016, 2030, AB,  14, 62, 4,  59.5, 4,  10.1, 0.6, 0.6, 0.5, 2.8, 0.60, 0.18, 3, 35
 ```
 
 > **Nota:** Los valores de `A_C_Ref`, `A_Roof_1`, `A_Wall_1`, `A_Floor_1`, `A_Window_1` son estimaciones iniciales. Deben reemplazarse por las medianas calculadas desde `sii_residencial.parquet` (Task 0.1 de MERLIN_RCP) antes de usar en producción. Los valores de `q_H_nd` son de referencia para validación; no se usan en el cálculo.
+
+> **Implementación real vs. spec:** el CSV implementado tiene ~50 columnas (no 19). Las funciones `get_shape` y `get_fabric` en `buildingconfig.py` acceden a `U_Actual_*`, `b_Transmission_*`, `A_Window_North/East/South/West`, `h_room`, `n_air_infiltration`, `n_air_use`, etc. Ver `ARCHETYPES_CL.md` y el CSV real para el detalle completo. Los IDs usan prefijo `CL.` (no `CL.` del spec original `CL.`) — consistente con la convención EPISCOPE de código de país.
 
 ---
 
@@ -354,7 +356,7 @@ def test_sfh_prenorma_madera_zona_g():
     u_vals = {"U_Wall_1": 2.7, "U_Roof_1": 2.5, "U_Floor_1": 1.4, "U_Window_1": 5.8}
 
     cfg = tsib.BuildingConfiguration({
-        "ID":          "PT.SFH.preN.mad",
+        "ID":          "CL.SFH.preN.mad",
         "country":     "CL",
         "a_ref":       60,
         "weatherData": tmy,
@@ -384,8 +386,8 @@ def test_sfh_ds50_menor_que_prenorma():
         bdg.getHeatLoad()
         return bdg.timeseries["Heating Load"].sum() / 60
 
-    q_pre = sim("PT.SFH.preN.mad", u_prenorma)
-    q_ds  = sim("PT.SFH.DS50.mad", u_ds50)
+    q_pre = sim("CL.SFH.preN.mad", u_prenorma)
+    q_ds  = sim("CL.SFH.DS50.mad", u_ds50)
     assert q_pre > q_ds, f"pre-norma ({q_pre:.1f}) debe ser > DS50 ({q_ds:.1f})"
 
 
@@ -394,7 +396,7 @@ def test_country_cl_accepted():
     tmy = _make_synthetic_tmy()
     try:
         tsib.BuildingConfiguration({
-            "ID": "PT.SFH.intN.lad", "country": "CL",
+            "ID": "CL.SFH.intN.lad", "country": "CL",
             "a_ref": 65, "weatherData": tmy, "weatherID": "test_country",
         })
     except ValueError as e:
@@ -463,7 +465,7 @@ def simulate_archetype(
 - [x] **1.1** Agregar `'CL'` a `KWARG_TYPES["country"]` en `buildingconfig.py`
 - [x] **1.2** Agregar `KWARG_DEFAULTS_CL` y aplicarlo cuando `country == 'CL'`
 - [x] **1.3** Agregar bloque de override U-values al final de `_get_fabric`
-- [ ] **2** Crear `tsib/data/episcope/CL_episcope.csv` con las 27 filas
+- [x] **2** Crear `tsib/data/episcope/CL_episcope.csv` con las 27 filas
 - [ ] **3** Crear `tsib/weather/chile.py` con `bd_tmy_to_tsib`
 - [ ] **3** Exponer `bd_tmy_to_tsib` en `tsib/__init__.py`
 - [ ] **4** Verificar que HiGHS o CBC esté instalado y accesible por Pyomo
