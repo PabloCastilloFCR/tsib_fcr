@@ -104,42 +104,125 @@ tsorb is the original occupancy stochastic model built into tsib. It requires pa
 
 ## Chilean archetypes
 
-Archetypes are stored in [`tsib/data/episcope/CL_episcope.csv`](tsib/data/episcope/CL_episcope.csv). Each row defines the geometry and envelope properties of one Chilean building type.
+Archetypes are stored in [`tsib/data/episcope/CL_episcope.csv`](tsib/data/episcope/CL_episcope.csv). 27 archetypes covering the Chilean residential stock, organized by building type × normative period × materialidad.
 
 ### ID convention
 
 ```
-CL.<type>.<standard>.<construction>
+CL.{BuildingType}.{Period}.{Material}
 ```
 
 | Segment | Values | Meaning |
 |---------|--------|---------|
-| `CL` | — | Chile |
-| `<type>` | `SFH`, `MFH`, `AB` | Single-family, multi-family, apartment block |
-| `<standard>` | `preN`, `intN`, `DS50` | Pre-normativa, intermediate normativa, DS50 |
-| `<construction>` | `mad`, `lad`, `mam`, `hor` | Wood light, wood heavy, masonry, concrete |
+| `CL` | fixed | Country code |
+| `BuildingType` | `SFH`, `MFH`, `AB` | Single-family home, multi-family home, apartment block |
+| `Period` | `preN`, `intN`, `DS50` | Normative period (see below) |
+| `Material` | `mad`, `lad`, `hor` | Materialidad (see below) |
 
-**Examples:**
+### Building types
 
-| ID | Description |
-|----|-------------|
-| `CL.SFH.preN.mad` | Single-family, pre-normativa, light wood frame |
-| `CL.SFH.DS50.lad` | Single-family, DS50, heavy wood frame |
-| `CL.MFH.intN.mam` | Multi-family, intermediate, masonry |
-| `CL.AB.DS50.hor`  | Apartment block, DS50, reinforced concrete |
+| Code | Full name | Storeys | Ref. area (m²) |
+|------|-----------|---------|----------------|
+| `SFH` | Vivienda unifamiliar | 1–2 | 60–70 |
+| `MFH` | Edificio bajo | 4 | 55–65 |
+| `AB` | Edificio en altura | 12–14 | 52–62 |
 
-27 archetypes in total: 3 types × 3 standards × 3 constructions = 27 (AB only has `hor`).
+### Normative periods
+
+| Code | Years | Regulation | Typical envelope |
+|------|-------|------------|-----------------|
+| `preN` | 1900–1999 | No thermal requirements | U_Wall 2.3–3.4, U_Win 5.8 W/m²K |
+| `intN` | 2000–2015 | Reglamentación Térmica RT 2007 | U_Wall ~1.9, U_Win 3.5 W/m²K |
+| `DS50` | 2016–2030 | DS50 Eficiencia Energética | U_Wall 0.6, U_Win 2.8 W/m²K |
+
+### Materialidad
+
+| Code | Material | Thermal mass | Infiltration (1/h) |
+|------|----------|--------------|--------------------|
+| `mad` | Madera — wood frame | Low | 0.50–0.80 |
+| `lad` | Ladrillo — brick masonry | Medium | 0.25–0.50 |
+| `hor` | Hormigón — concrete | High | 0.18–0.30 |
+
+> Pre-normativa concrete walls were thin and uninsulated (~15 cm), giving U_Wall ≈ 3.4 W/m²K — higher than brick or wood of the same era. For `intN` and `DS50`, added insulation dominates and all three materials converge to similar U_Wall values.
+
+### Complete archetype table
+
+| ID | Type | Period | Material | Storeys | A_C_Ref (m²) | U_Wall | U_Roof | U_Floor | U_Win | g_gl_n | n_Inf |
+|----|------|--------|----------|---------|--------------|--------|--------|---------|-------|--------|-------|
+| CL.SFH.preN.mad | SFH | preN | Madera | 1 | 60 | 2.7 | 2.5 | 1.4 | 5.8 | 0.87 | 0.80 |
+| CL.SFH.preN.lad | SFH | preN | Ladrillo | 1 | 60 | 2.3 | 2.5 | 1.4 | 5.8 | 0.75 | 0.50 |
+| CL.SFH.preN.hor | SFH | preN | Hormigón | 1 | 60 | 3.4 | 2.5 | 1.4 | 5.8 | 0.75 | 0.30 |
+| CL.SFH.intN.mad | SFH | intN | Madera | 1 | 65 | 1.9 | 1.5 | 0.8 | 3.5 | 0.75 | 0.60 |
+| CL.SFH.intN.lad | SFH | intN | Ladrillo | 1 | 65 | 1.9 | 1.5 | 0.8 | 3.5 | 0.75 | 0.50 |
+| CL.SFH.intN.hor | SFH | intN | Hormigón | 1 | 65 | 1.9 | 1.5 | 0.8 | 3.5 | 0.75 | 0.30 |
+| CL.SFH.DS50.mad | SFH | DS50 | Madera | 2 | 70 | 0.6 | 0.6 | 0.5 | 2.8 | 0.60 | 0.50 |
+| CL.SFH.DS50.lad | SFH | DS50 | Ladrillo | 2 | 70 | 0.6 | 0.6 | 0.5 | 2.8 | 0.60 | 0.40 |
+| CL.SFH.DS50.hor | SFH | DS50 | Hormigón | 2 | 70 | 0.6 | 0.6 | 0.5 | 2.8 | 0.60 | 0.25 |
+| CL.MFH.preN.mad | MFH | preN | Madera | 4 | 55 | 2.7 | 2.5 | 1.4 | 5.8 | 0.87 | 0.70 |
+| CL.MFH.preN.lad | MFH | preN | Ladrillo | 4 | 55 | 2.3 | 2.5 | 1.4 | 5.8 | 0.75 | 0.45 |
+| CL.MFH.preN.hor | MFH | preN | Hormigón | 4 | 55 | 3.4 | 2.5 | 1.4 | 5.8 | 0.75 | 0.25 |
+| CL.MFH.intN.mad | MFH | intN | Madera | 4 | 60 | 1.9 | 1.5 | 0.8 | 3.5 | 0.75 | 0.55 |
+| CL.MFH.intN.lad | MFH | intN | Ladrillo | 4 | 60 | 1.9 | 1.5 | 0.8 | 3.5 | 0.75 | 0.45 |
+| CL.MFH.intN.hor | MFH | intN | Hormigón | 4 | 60 | 1.9 | 1.5 | 0.8 | 3.5 | 0.75 | 0.25 |
+| CL.MFH.DS50.mad | MFH | DS50 | Madera | 4 | 65 | 0.6 | 0.6 | 0.5 | 2.8 | 0.60 | 0.45 |
+| CL.MFH.DS50.lad | MFH | DS50 | Ladrillo | 4 | 65 | 0.6 | 0.6 | 0.5 | 2.8 | 0.60 | 0.35 |
+| CL.MFH.DS50.hor | MFH | DS50 | Hormigón | 4 | 65 | 0.6 | 0.6 | 0.5 | 2.8 | 0.60 | 0.22 |
+| CL.AB.preN.mad  | AB  | preN | Madera | 12 | 52 | 2.7 | 2.5 | 1.4 | 5.8 | 0.87 | 0.60 |
+| CL.AB.preN.lad  | AB  | preN | Ladrillo | 12 | 52 | 2.3 | 2.5 | 1.4 | 5.8 | 0.75 | 0.35 |
+| CL.AB.preN.hor  | AB  | preN | Hormigón | 12 | 52 | 3.4 | 2.5 | 1.4 | 5.8 | 0.75 | 0.20 |
+| CL.AB.intN.mad  | AB  | intN | Madera | 12 | 58 | 1.9 | 1.5 | 0.8 | 3.5 | 0.75 | 0.45 |
+| CL.AB.intN.lad  | AB  | intN | Ladrillo | 12 | 58 | 1.9 | 1.5 | 0.8 | 3.5 | 0.75 | 0.35 |
+| CL.AB.intN.hor  | AB  | intN | Hormigón | 12 | 58 | 1.9 | 1.5 | 0.8 | 3.5 | 0.75 | 0.18 |
+| CL.AB.DS50.mad  | AB  | DS50 | Madera | 14 | 62 | 0.6 | 0.6 | 0.5 | 2.8 | 0.60 | 0.35 |
+| CL.AB.DS50.lad  | AB  | DS50 | Ladrillo | 14 | 62 | 0.6 | 0.6 | 0.5 | 2.8 | 0.60 | 0.28 |
+| CL.AB.DS50.hor  | AB  | DS50 | Hormigón | 14 | 62 | 0.6 | 0.6 | 0.5 | 2.8 | 0.60 | 0.18 |
+
+All U-values in W/m²K. `g_gl_n` = solar transmittance of glazing. `n_Inf` = air infiltration rate (1/h).
+
+### Geometry
+
+Areas in the CSV are derived from the reference floor area:
+
+```
+A_Roof_1   = A_C_Ref / n_Storey
+A_Floor_1  = A_C_Ref / n_Storey
+A_Wall_1   = 4 × sqrt(A_C_Ref / n_Storey) × n_Storey × 2.4   [ceiling height 2.4 m]
+A_Window_1 = A_Wall_1 × WWR
+```
+
+Window-to-wall ratios: SFH = 0.15, MFH = 0.17, AB = 0.20. Window area is split equally across the four cardinal orientations.
+
+### Zone-specific U-values
+
+The CSV stores zone-neutral default U-values. Override them per simulation call to apply zone- and period-specific values without needing separate CSV rows per zone:
+
+```python
+cfg = tsib.BuildingConfiguration({
+    "ID":      "CL.SFH.preN.mad",
+    "country": "CL",
+    "a_ref":   60,
+    "weatherData": tmy,
+    "weatherID": "zona_g",
+    # zone-specific overrides:
+    "U_Wall_1":       2.7,
+    "U_Roof_1":       2.5,
+    "U_Floor_1":      1.4,
+    "U_Window_1":     5.8,
+    "n_Infiltration": 0.80,
+    "g_gl_n":         0.87,
+})
+```
+
+This allows 27 geometry archetypes × 7 thermal zones without needing 189 CSV rows.
 
 ### Chilean defaults applied when `country='CL'`
 
-| Parameter | Value | Notes |
-|-----------|-------|-------|
-| Heating setpoint | 18 °C | |
-| Cooling setpoint | 26 °C | |
-| Infiltration rate | 0.8 ACH | typical unretrofitted Chilean housing |
-| Heating system | Electric heater | |
-
-U-values from the archetype CSV can be overridden per simulation call using `U_Wall_1`, `U_Roof_1`, `U_Floor_1`, `U_Window_1` kwargs.
+| Parameter | Value |
+|-----------|-------|
+| Heating setpoint | 18 °C |
+| Cooling setpoint | 26 °C |
+| Infiltration rate | 0.8 ACH |
+| Heating system | Electric heater |
 
 ---
 

@@ -93,5 +93,5 @@ The spec listed ~19 columns, but `get_shape` and `get_fabric` in `buildingconfig
 - **Override key mapping** (implemented in `_get_fabric`): kwarg `U_Window_1` → `cfg["U_Window"]`, `g_gl_n` → `cfg["g_gl_n_Window"]`, `n_Infiltration` → `cfg["n_air_infiltration"]`
 - **`Code_RoofType`**: `"SD"` (sloped, 45°) for SFH/MFH; `"FR"` (flat, 0°) for AB
 
-See [`ARCHETYPES_CL.md`](ARCHETYPES_CL.md) for the full archetype classification and table.  
+See [README.md — Chilean archetypes](README.md#chilean-archetypes) for the full archetype classification and table.  
 See the actual file at [`tsib/data/episcope/CL_episcope.csv`](tsib/data/episcope/CL_episcope.csv) for all 50 columns.
