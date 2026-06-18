@@ -271,6 +271,14 @@ tsib/
 
 ---
 
+## Examples
+
+| Script | Description |
+|--------|-------------|
+| [`examples/santiago_ab_calibration.py`](examples/santiago_ab_calibration.py) | Real-world calibration of a 219-unit concrete apartment block in downtown Santiago (2005) against monthly gas billing data. Covers ACS + heating demand separation, gas volume conversion, and monthly error breakdown. |
+
+---
+
 ## Running tests
 
 ```bash
