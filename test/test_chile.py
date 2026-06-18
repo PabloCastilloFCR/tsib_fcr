@@ -57,7 +57,7 @@ def _run_heat_load(archetype_id, tmy, a_ref, u_vals=None, weather_id="test"):
     cfg = bdg_cfg.getBdgCfg(includeSupply=True)
     cfg.update(_dummy_profiles(tmy.index))
     model = tsib.Building5R1C(cfg)
-    model.sim_demand(solver="highs", tee=False)
+    model.sim_demand_direct()
     return model.detailedResults["Heating Load"].sum() / a_ref
 
 

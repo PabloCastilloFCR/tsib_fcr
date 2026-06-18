@@ -126,17 +126,17 @@ use the final `T_m[8760]` as the new `T_m[0]`. Stop when
 
 ## Task List
 
-- [ ] **T1** Verify Q_m and Q_st formulas against original gainMassNode/gainSurNode
+- [x] **T1** Verify Q_m and Q_st formulas against original gainMassNode/gainSurNode
       using a 2-timestep debug run (print both LP variable values and formula values)
-- [ ] **T2** Implement `sim_demand_direct()` in `tsib/thermal/model5R1C.py`
+- [x] **T2** Implement `sim_demand_direct()` in `tsib/thermal/model5R1C.py`
       - Extract params via `_initOpti` + `_addOpti` (reuse existing machinery)
       - Precompute Q_m[t] and Q_st[t] arrays
       - Forward-Euler time loop with analytical T_s / T_air / Q_H / Q_C
       - Periodic BC iteration (max 5 passes, tolerance 0.01 K)
       - Write results to `self.detailedResults` (same keys as `sim5R1C`)
-- [ ] **T3** Update `test/test_chile.py` — replace `sim_demand` → `sim_demand_direct`
-- [ ] **T4** Run `pytest test/test_chile.py -v` and confirm all 3 tests pass
-- [ ] **T5** Sanity-check results: preN.mad heating load ≫ DS50.mad (expected ~3–5×)
-- [ ] **T6** Delete `debug_sim_demand.py` and `debug_ds50.py`
-- [ ] **T7** (CLAUDE.md task 5) Mark test/test_chile.py as ✅ in implementation table
-- [ ] **T8** (CLAUDE.md task 6) Bump version to `0.2.0-cl` in `setup.py`
+- [x] **T3** Update `test/test_chile.py` — replace `sim_demand` → `sim_demand_direct`
+- [x] **T4** Run `pytest test/test_chile.py -v` and confirm all 3 tests pass
+- [x] **T5** Sanity-check results: preN.mad heating load ≫ DS50.mad (expected ~3–5×)
+- [x] **T6** Delete `debug_sim_demand.py` and `debug_ds50.py`
+- [x] **T7** (CLAUDE.md task 5) Mark test/test_chile.py as ✅ in implementation table
+- [x] **T8** (CLAUDE.md task 6) Bump version to `0.2.0-cl` in `setup.py`

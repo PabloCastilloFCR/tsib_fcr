@@ -1223,14 +1223,15 @@ class Building5R1C(object):
         return designHeatLoad / 1000
 
 
-    def sim_demand(self, solver="highs", tee=False):
-        """
-        Compute building heat and cooling demand using the 5R1C model with
-        fixed envelope parameters (no refurbishment/investment optimization).
+    def sim_demand_direct(self):
+        """Compute building heat/cooling demand via direct 5R1C time-stepping.
 
-        Eliminates the big-M linearization and Q_comp auxiliary variables from
-        sim5R1C, resulting in a smaller and numerically stable LP.  Results are
-        stored in self.detailedResults with the same keys as sim5R1C.
+        Solves the ISO 13790 5R1C energy balance analytically at each hour
+        without building or solving an LP.  No Pyomo solver required.
+
+        Results are written to self.detailedResults with the same keys as
+        sim5R1C: 'Heating Load', 'Cooling Load', 'Electricity Load',
+        'T_air', 'T_s', 'T_m' (all 1-D numpy arrays, kW per hour).
         """
         self.WACC = None
         self.lifetime = 40
@@ -1238,15 +1239,16 @@ class Building5R1C(object):
         self.coolCost = 0.02
         self.elecCost = 0.25
 
-        # ── step 1: reuse existing machinery to get profiles and 5R1C params ──
+        # ── step 1: build a temporary Pyomo model just to extract parameters ──
+        N = len(self.times)
         M_tmp = pyomo.ConcreteModel()
-        M_tmp.timeIndex = [(1, t) for t in range(len(self.times))]
+        M_tmp.timeIndex = [(1, t) for t in range(N)]
         M_tmp.fullTimeIndex = M_tmp.timeIndex
         timediff = self.times[1] - self.times[0]
         M_tmp.stepSize = timediff.total_seconds() / 3600
         M_tmp.hasTypPeriods = False
         M_tmp.WACC = 0.08
-        M_tmp.optInterval = 8760
+        M_tmp.optInterval = N
         M_tmp.connectIndex = [
             ("Heat", "Building"),
             ("Electricity", "Building"),
@@ -1261,15 +1263,9 @@ class Building5R1C(object):
         M_tmp = self._initOpti(M_tmp)
         M_tmp.bRefurbishment = False
         M_tmp = self._addOpti(M_tmp)
+        # profiles are plain numpy arrays indexed 0..N-1 at this point
 
-        # convert array profiles → dict keyed by timeIndex tuple
-        for pn in M_tmp.profiles:
-            M_tmp.profiles[pn] = {
-                ti: M_tmp.profiles[pn][i]
-                for i, ti in enumerate(M_tmp.timeIndex)
-            }
-
-        # ── step 2: extract fixed conductances (single "Nothing" option) ──
+        # ── step 2: extract fixed conductances (single option per component) ──
         ix_walls = list(M_tmp.bInsul["Walls"])[0]
         ix_roof  = list(M_tmp.bInsul["Roof"])[0]
         ix_floor = list(M_tmp.bInsul["Floor"])[0]
@@ -1279,181 +1275,113 @@ class Building5R1C(object):
         H_em   = (M_tmp.bH["Walls"][ix_walls]
                   + M_tmp.bH["Roof"][ix_roof]
                   + M_tmp.bH["Floor"][ix_floor])  # opaque envelope [kW/K]
-        H_win  = M_tmp.bH["Windows"][ix_win]       # windows [kW/K]
+        H_win  = M_tmp.bH["Windows"][ix_win]       # window conductance [kW/K]
         H_vent = M_tmp.bH["Ventilation"][ix_vent]  # ventilation [kW/K]
-        H_door = M_tmp.bH_door
-        H_ms   = M_tmp.bH_ms
-        H_is   = M_tmp.bH_is
-        C_m    = M_tmp.bC_m
-        dt     = M_tmp.stepSize
-        T_lb   = M_tmp.bT_comf_lb
-        T_ub   = M_tmp.bT_comf_ub
-        U_win_kw = M_tmp.bU["Windows"][ix_win]     # U in kW/(m²·K)
-        h_ms_c = M_tmp.bConst["h_ms"]              # surface heat transfer coeff
-        A_tot  = M_tmp.bA_tot
-        A_m    = M_tmp.bA_m
-        A_f    = M_tmp.bA_f
+        H_door = M_tmp.bH_door                     # door [kW/K]
+        H_ms   = M_tmp.bH_ms                       # mass–surface [kW/K]
+        H_is   = M_tmp.bH_is                       # surface–air [kW/K]
+        C_m    = M_tmp.bC_m                        # thermal mass [kWh/K]
+        dt     = M_tmp.stepSize                    # timestep [h]
+        T_lb   = M_tmp.bT_comf_lb                  # heating setpoint [°C]
+        T_ub   = M_tmp.bT_comf_ub                  # cooling setpoint [°C]
+        U_win_kw = M_tmp.bU["Windows"][ix_win]     # window U-value [kW/(m²·K)]
+        h_ms   = M_tmp.bConst["h_ms"]              # surface h.t.c. [kW/(m²·K)]
+        A_tot  = M_tmp.bA_tot                      # total internal surface [m²]
+        A_m    = M_tmp.bA_m                        # effective mass area [m²]
+        A_f    = M_tmp.bA_f                        # floor area [m²]
 
-        # ── step 3: precompute nodal gain arrays (fixed, no optimization) ──
-        TI      = M_tmp.timeIndex
-        Q_ig_arr = np.array([M_tmp.profiles["bQ_ig"][ti] for ti in TI])
-        T_e_arr  = np.array([M_tmp.profiles["T_e"][ti]   for ti in TI])
-        elec_arr = np.array([M_tmp.profiles["bElecLoad"][ti] for ti in TI])
+        # ── step 3: precompute per-timestep gain vectors ──
+        T_e    = M_tmp.profiles["T_e"]              # outside air temp [°C]
+        Q_ig   = M_tmp.profiles["bQ_ig"]            # internal gains [kW]
+        elec   = M_tmp.profiles["bElecLoad"]        # electricity load [kW]
 
-        sol_comps = [
-            ("Walls",   ix_walls),
-            ("Roof",    ix_roof),
-            ("Windows", ix_win),
-        ]
-        Q_sol_all = np.array([
-            sum(M_tmp.profiles["bQ_sol_" + c + d][ti] for c, d in sol_comps)
-            for ti in TI
-        ])
+        # Q_sol_* = solar absorbed − sky thermal radiation loss (can be < 0 at night)
+        sol_keys = [("Walls", ix_walls), ("Roof", ix_roof), ("Windows", ix_win)]
+        Q_sol_all = sum(M_tmp.profiles["bQ_sol_" + c + d] for c, d in sol_keys)
 
-        # Q_m: gains to thermal mass node  (gainMassNode, eq. 15)
-        Q_m_arr = (0.5 * A_m / A_tot * Q_ig_arr
-                   + A_f / A_tot * Q_sol_all)
+        # gainMassNode (Schuetz 2017, eq. 15) — with exVars = 1
+        Q_m = 0.5 * (A_m / A_tot) * Q_ig + (A_f / A_tot) * Q_sol_all
 
-        # Q_st: gains to surface/star node  (gainSurNode, eq. 16, all exVars=1)
-        Q_st_arr = (
-            (1.0 - U_win_kw / h_ms_c / A_tot) * 0.5 * Q_ig_arr
-            - H_win / h_ms_c / A_tot * Q_sol_all
-            + Q_sol_all
-            - Q_m_arr
-        )
+        # gainSurNode (Schuetz 2017, eq. 16) — with exVars = 1, P_X = 1
+        # note: original code uses bU (per-m²) for Q_ig term, bH for Q_sol term
+        Q_st = ((1.0 - U_win_kw / h_ms / A_tot) * 0.5 * Q_ig
+                - (H_win / h_ms / A_tot) * Q_sol_all
+                + Q_sol_all
+                - Q_m)
 
-        # ── step 4: build simplified LP ──
-        M = pyomo.ConcreteModel()
-        M.timeIndex     = M_tmp.timeIndex
-        M.fullTimeIndex = M.timeIndex
+        # ── step 4: forward-Euler time-stepping with periodic BC ──
+        # Analytical solution per step (derived from surface + air algebraic eqs):
+        #   free-float T_s:   H_ms*T_s = 2*Q_st + (H_ms-H_win)*T_m + H_win*T_e - H_vent*(T_m-T_e)
+        #   free-float T_air: T_air = T_s + (Q_st - H_vent*(T_m-T_e)) / H_is
+        #   if T_air < T_lb:  set T_air=T_lb, solve T_s from surface eq, Q_H from air eq
+        #   if T_air > T_ub:  set T_air=T_ub, solve T_s from surface eq, Q_C from air eq
+        #   mass update:      T_m[t+1] = T_m[t] + (Q_m - H_ms*(T_m-T_s)
+        #                                         - (H_em+H_door)*(T_m-T_e)) * dt / C_m
 
-        M.Q_H   = pyomo.Var(M.timeIndex, within=pyomo.NonNegativeReals)
-        M.Q_C   = pyomo.Var(M.timeIndex, within=pyomo.NonNegativeReals)
-        M.Q_E   = pyomo.Var(M.timeIndex, within=pyomo.NonNegativeReals)
-        M.T_m   = pyomo.Var(M.timeIndex)
-        M.T_s   = pyomo.Var(M.timeIndex)
-        M.T_air = pyomo.Var(M.timeIndex)
+        Q_H   = np.zeros(N)
+        Q_C   = np.zeros(N)
+        T_m_r = np.zeros(N)
+        T_s_r = np.zeros(N)
+        T_air_r = np.zeros(N)
 
-        # store profiles as plain dicts on M for constraint closures
-        M._Q_m  = {ti: float(Q_m_arr[i])  for i, ti in enumerate(M.timeIndex)}
-        M._Q_st = {ti: float(Q_st_arr[i]) for i, ti in enumerate(M.timeIndex)}
-        M._T_e  = {ti: float(T_e_arr[i])  for i, ti in enumerate(M.timeIndex)}
-        M._elec = {ti: float(elec_arr[i]) for i, ti in enumerate(M.timeIndex)}
+        T_m0 = float(T_lb)  # initial condition — converged by periodic iteration
 
-        # Energy balance — mass node (interior timesteps):
-        # C_m*(T_m[t+1]-T_m[t])/dt + H_ms*(T_m-T_s) + (H_em+H_door)*(T_m-T_e) = Q_m
-        def bal_mass(M, t1, t2):
-            ti      = (t1, t2)
-            ti_next = (t1, t2 + 1)
-            return (
-                C_m * (M.T_m[ti_next] - M.T_m[ti]) / dt
-                + H_ms  * (M.T_m[ti] - M.T_s[ti])
-                + (H_em + H_door) * (M.T_m[ti] - M._T_e[ti])
-                == M._Q_m[ti]
-            )
+        for _pass in range(5):
+            T_m_cur = T_m0
+            for i in range(N):
+                te  = float(T_e[i])
+                qm  = float(Q_m[i])
+                qst = float(Q_st[i])
+                dTe = T_m_cur - te
 
-        M.bal_mass_con = pyomo.Constraint(M.timeIndex[:-1], rule=bal_mass)
+                # free-float surface and air temperatures
+                T_s_ff   = (2.0*qst + (H_ms - H_win)*T_m_cur + H_win*te
+                            - H_vent*dTe) / H_ms
+                T_air_ff = T_s_ff + (qst - H_vent*dTe) / H_is
 
-        # wrap-around: last timestep links back to first (annual periodicity)
-        def bal_mass_wrap(M):
-            ti_last = M.timeIndex[-1]
-            ti_first = M.timeIndex[0]
-            return (
-                C_m * (M.T_m[ti_first] - M.T_m[ti_last]) / dt
-                + H_ms  * (M.T_m[ti_last] - M.T_s[ti_last])
-                + (H_em + H_door) * (M.T_m[ti_last] - M._T_e[ti_last])
-                == M._Q_m[ti_last]
-            )
+                if T_air_ff < T_lb:
+                    # heating required
+                    T_s_i   = (qst + (H_ms - H_win)*T_m_cur + H_win*te
+                               + H_is*T_lb) / (H_ms + H_is)
+                    T_air_i = T_lb
+                    Q_H[i]  = max(0.0, H_vent*dTe + H_is*(T_lb - T_s_i) - qst)
+                    Q_C[i]  = 0.0
+                elif T_air_ff > T_ub:
+                    # cooling required
+                    T_s_i   = (qst + (H_ms - H_win)*T_m_cur + H_win*te
+                               + H_is*T_ub) / (H_ms + H_is)
+                    T_air_i = T_ub
+                    Q_C[i]  = max(0.0, -(H_vent*dTe + H_is*(T_ub - T_s_i) - qst))
+                    Q_H[i]  = 0.0
+                else:
+                    T_s_i   = T_s_ff
+                    T_air_i = T_air_ff
+                    Q_H[i]  = 0.0
+                    Q_C[i]  = 0.0
 
-        M.bal_mass_wrap_con = pyomo.Constraint(rule=bal_mass_wrap)
+                T_m_r[i]   = T_m_cur
+                T_s_r[i]   = T_s_i
+                T_air_r[i] = T_air_i
 
-        # Energy balance — surface/star node (algebraic):
-        # H_ms*(T_s-T_m) + H_is*(T_s-T_air) + H_win*(T_s-T_e) = Q_st
-        def bal_surf(M, t1, t2):
-            ti = (t1, t2)
-            return (
-                H_ms  * (M.T_s[ti] - M.T_m[ti])
-                + H_is  * (M.T_s[ti] - M.T_air[ti])
-                + H_win * (M.T_s[ti] - M._T_e[ti])
-                == M._Q_st[ti]
-            )
+                # forward Euler mass update
+                T_m_cur += (qm - H_ms*(T_m_cur - T_s_i)
+                            - (H_em + H_door)*dTe) * dt / C_m
 
-        M.bal_surf_con = pyomo.Constraint(M.timeIndex, rule=bal_surf)
+            if abs(T_m_cur - T_m0) < 0.01:
+                break
+            T_m0 = T_m_cur
 
-        # Energy balance — air node:
-        # H_vent*(T_m-T_e) + H_is*(T_air-T_s) = Q_st - Q_C + Q_H
-        # (ventilation term uses T_m to match original model's Q_comp indexing)
-        def bal_air(M, t1, t2):
-            ti = (t1, t2)
-            return (
-                H_vent * (M.T_m[ti] - M._T_e[ti])
-                + H_is * (M.T_air[ti] - M.T_s[ti])
-                == M._Q_st[ti] - M.Q_C[ti] + M.Q_H[ti]
-            )
+        # ── step 5: store results ──
+        self.detailedResults["Heating Load"]     = Q_H
+        self.detailedResults["Cooling Load"]     = Q_C
+        self.detailedResults["Electricity Load"] = np.array(elec, dtype=float)
+        self.detailedResults["T_air"] = T_air_r
+        self.detailedResults["T_s"]   = T_s_r
+        self.detailedResults["T_m"]   = T_m_r
 
-        M.bal_air_con = pyomo.Constraint(M.timeIndex, rule=bal_air)
-
-        # Comfort bounds
-        def t_lb(M, t1, t2):
-            return M.T_air[(t1, t2)] >= T_lb
-
-        def t_ub(M, t1, t2):
-            return M.T_air[(t1, t2)] <= T_ub
-
-        M.t_lb_con = pyomo.Constraint(M.timeIndex, rule=t_lb)
-        M.t_ub_con = pyomo.Constraint(M.timeIndex, rule=t_ub)
-
-        # Electricity demand (fixed load)
-        def elec_bal(M, t1, t2):
-            ti = (t1, t2)
-            return M.Q_E[ti] == M._elec[ti]
-
-        M.elec_bal_con = pyomo.Constraint(M.timeIndex, rule=elec_bal)
-
-        # Objective: minimize energy cost
-        def obj_rule(M):
-            return (
-                sum(M.Q_H[ti] for ti in M.timeIndex) * self.heatCost
-                + sum(M.Q_C[ti] for ti in M.timeIndex) * self.coolCost
-                + sum(M.Q_E[ti] for ti in M.timeIndex) * self.elecCost
-            )
-
-        M.obj = pyomo.Objective(rule=obj_rule)
-
-        self.M = M
-
-        # ── step 5: solve ──
-        if solver == "highs":
-            highs_solver = appsi.solvers.Highs()
-            highs_solver.config.stream_solver = tee
-            highs_solver.highs_options = {"solver": "simplex"}
-            self.opt_results = highs_solver.solve(M)
-        else:
-            optprob = opt.SolverFactory(solver)
-            optprob.options = utils.manageSolverOpts(
-                solver, {"Threads": 1, "LogFile": ""}
-            )
-            self.opt_results = optprob.solve(M, tee=tee)
-
-        # ── step 6: read results ──
-        self.detailedResults["Heating Load"] = np.array(
-            [M.Q_H[ti].value for ti in M.fullTimeIndex]
-        )
-        self.detailedResults["Cooling Load"] = np.array(
-            [M.Q_C[ti].value for ti in M.fullTimeIndex]
-        )
-        self.detailedResults["Electricity Load"] = np.array(
-            [M.Q_E[ti].value for ti in M.fullTimeIndex]
-        )
-        self.detailedResults["T_air"] = np.array(
-            [M.T_air[ti].value for ti in M.fullTimeIndex]
-        )
-        self.detailedResults["T_s"] = np.array(
-            [M.T_s[ti].value for ti in M.fullTimeIndex]
-        )
-        self.detailedResults["T_m"] = np.array(
-            [M.T_m[ti].value for ti in M.fullTimeIndex]
-        )
+    def sim_demand(self):
+        """Alias for sim_demand_direct — kept for backwards compatibility."""
+        return self.sim_demand_direct()
 
     def sim5R1C(self, solver=None, tee=True):
         """

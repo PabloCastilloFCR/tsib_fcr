@@ -7,9 +7,9 @@ with open(os.path.join(dir_path, "README.md"), "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="tsib",
-    version="0.1.6",
-    author="Leander Kotzur",
+    name="tsib-fcr",
+    version="0.2.0-cl",
+    author="Leander Kotzur, Fraunhofer Chile Research",
     author_email="l.kotzur@fz-juelich.de",
     description="Time Series Initialization for Buildings",
     long_description=long_description,

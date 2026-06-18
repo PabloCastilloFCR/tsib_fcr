@@ -1,85 +1,224 @@
-[![Build Status](https://img.shields.io/gitlab/pipeline/l-kotzur/tsib/master.svg)](https://gitlab.com/l-kotzur/tsib/pipelines)
-[![Version](https://img.shields.io/pypi/v/tsib.svg)](https://pypi.python.org/pypi/tsib)
+# tsib-fcr — Time Series Initialization for Buildings (Chile Fork)
 
-<a href="https://www.fz-juelich.de/en/iek/iek-3"><img src="https://raw.githubusercontent.com/OfficialCodexplosive/README_Assets/862a93188b61ab4dd0eebde3ab5daad636e129d5/FJZ_IEK-3_logo.svg" alt="FZJ Logo" width="300px"></a>
+**Version 0.2.0-cl** · Fork of [FZJ-IEK3-VSA/tsib](https://github.com/FZJ-IEK3-VSA/tsib) adapted for Chilean residential buildings by [Fraunhofer Chile Research](https://www.fraunhofer.cl).
 
-# tsib - Time Series Initialization for Buildings
+This fork adapts the ISO 13790 5R1C residential building thermal model to the Chilean context: Chilean building archetypes (pre-normativa and DS50), a BD Ancestral weather adapter, and a solver-free direct simulation path for thermal demand calculation.
 
-tsib is a python package that builds up on different databases and models for creating consistent demand and production time series of residential buildings. This could be either occupancy behavior, electricity demand or heat demand time series as well as photovoltaic (PV) and solar thermal production time series.
+---
 
+## What's different from upstream tsib
 
-If you want to use tsib in a published work, please [**cite following publication**](http://juser.fz-juelich.de/record/858675) which applies tsib for the creation of time series for residential buildings in Germany. 
+| Feature | Upstream tsib | tsib-fcr |
+|---------|--------------|----------|
+| Archetype catalogue | Germany (TABULA/EPISCOPE) | + Chile (27 archetypes, `CL_episcope.csv`) |
+| Weather adapter | DWD Testreferenzjahre (Germany) | + BD Ancestral TMY (`bd_tmy_to_tsib`) |
+| Demand calculation | LP solver required (HiGHS/CBC) | `sim_demand_direct()` — no solver needed |
+| Country kwarg | `'DE'` only | + `'CL'` with Chilean defaults |
 
-
-## Features
-* flexible configuration of single buildings by different input arguments
-* simple building definition based on an archetype building catalogue
-* consideration of the occupancy behavior
-* derivation of the electric device load or the demand for thermal comfort
-* calculation of the heat load based on a thermal building model
-* provision of location specific time series for solar irradiation and temperature based on weather data
-
-
-## Applied databases and models
-tsib is a flexible tool which allows the use of different models and databases for the generation of time series for buildings. In Version 0.1.0 the following databases and models are included is tsib:
-* [CREST](https://www.lboro.ac.uk/research/crest/demand-model/) demand model for the simulaton of the occupancy behavior
-* [5R1C](https://www.sciencedirect.com/science/article/abs/pii/S0306261916314933) thermal building model 
-* [pvlib](https://github.com/pvlib/pvlib-python) for solar irradiance calculation and photovoltaic simulation
-* [TABULA/EPISCOPE](http://episcope.eu/) archetype building catalogue
-* [DWD Testreferenzjahre](https://www.dwd.de/DE/leistungen/testreferenzjahre/testreferenzjahre.html)  for providing weather data
-
+---
 
 ## Installation
-Directly install via pip as follows:
 
-	pip install tsib
+Clone and install in editable mode:
 
-Alternatively, clone a local copy of the repository to your computer
+```bash
+git clone https://github.com/your-org/tsib_fcr.git
+cd tsib_fcr
+pip install -e .
+```
 
-	git clone https://github.com/FZJ-IEK3-VSA/tsib.git
-	
-Then install tsib via pip as follow
-	
-	cd tsib
-	pip install . 
-	
-Or install directly via python as 
+No solver installation required for demand-only simulations. The original `sim5R1C` optimization path still requires a solver (HiGHS recommended):
 
-	python setup.py install
-	
-In order to use the 5R1C thermal building model, make sure that you have installed a MILP solver. As default solver coin-cbc is used which can either installed by
+```bash
+pip install highspy
+```
 
-	sudo apt-get install coinor-cbc
+---
 
-or for Anaconda under windows as
+## Quick start
 
-	conda install -c conda-forge coincbc
+### 1. Compute heating demand for a Chilean building
 
-. Other solvers can be defined by defining the environment variable $SOLVER. 
-	
-To get flexible weather data from the Climate Data Store, register [here](https://cds.climate.copernicus.eu/api-how-to) and follow the instructions to get an own key. Make sure that you have agreed on the [license terms](https://cds.climate.copernicus.eu/cdsapp/#!/terms/licence-to-use-copernicus-products).
+```python
+import numpy as np
+import pandas as pd
+import tsib
 
-	
-## Examples
+# Weather data — hourly TMY with DatetimeIndex
+rng = pd.date_range("2024-01-01", periods=8760, freq="h")
+tmy = pd.DataFrame({
+    "T":   ...,   # dry-bulb temperature [°C]
+    "DHI": ...,   # diffuse horizontal irradiance [W/m²]
+    "DNI": ...,   # direct normal irradiance [W/m²]
+    "GHI": ...,   # global horizontal irradiance [W/m²]
+}, index=rng)
 
-This [jupyter notebook](examples/showcase.ipynb) shows the capabilites of tsib to create all relevant time series. 
+# Configure building — Chilean archetype, DS50 standard, wood-frame
+cfg_obj = tsib.BuildingConfiguration({
+    "ID":          "CL.SFH.DS50.mad",   # archetype ID from CL_episcope.csv
+    "country":     "CL",
+    "a_ref":       70.0,                # conditioned floor area [m²]
+    "weatherData": tmy,
+    "weatherID":   "my_location",
+    # optional: override U-values from archetype CSV
+    "U_Wall_1":    0.6,                 # [W/(m²·K)]
+    "U_Roof_1":    0.6,
+    "U_Floor_1":   0.5,
+    "U_Window_1":  2.8,
+    "refurbishment": False,
+})
+cfg = cfg_obj.getBdgCfg(includeSupply=True)
 
+# Inject occupancy / internal-gain profiles
+cfg["Q_ig"]         = np.full(8760, 0.3)   # internal gains [kW]
+cfg["occ_nothome"]  = pd.Series(np.zeros(8760), index=rng)
+cfg["occ_sleeping"] = pd.Series(np.zeros(8760), index=rng)
+cfg["elecLoad"]     = pd.Series(np.zeros(8760), index=rng)
+cfg["hotWaterLoad"] = pd.Series(np.zeros(8760), index=rng)
+
+# Run direct 5R1C simulation (no solver required)
+model = tsib.Building5R1C(cfg)
+model.sim_demand_direct()
+
+# Annual heating demand [kWh/m²/a]
+q_h_nd = model.detailedResults["Heating Load"].sum() / 70.0
+print(f"Heating demand: {q_h_nd:.1f} kWh/m²/a")
+```
+
+### 2. Convert BD Ancestral TMY to tsib format
+
+```python
+import pandas as pd
+import tsib
+
+# bd_df: DataFrame from BD Ancestral with columns tdry, dhi, dni, ghi, ...
+tsib_tmy = tsib.bd_tmy_to_tsib(bd_df)
+# → returns DataFrame with columns T, DHI, DNI, GHI, ... and DatetimeIndex
+```
+
+### 3. Use tsorb for occupancy profiles (optional)
+
+tsorb is the original occupancy stochastic model built into tsib. It requires pandas < 2.0 due to a `pd.datetime` deprecation. If you are on pandas ≥ 2.0, inject profiles manually as shown above.
+
+---
+
+## Chilean archetypes
+
+Archetypes are stored in [`tsib/data/episcope/CL_episcope.csv`](tsib/data/episcope/CL_episcope.csv). Each row defines the geometry and envelope properties of one Chilean building type.
+
+### ID convention
+
+```
+CL.<type>.<standard>.<construction>
+```
+
+| Segment | Values | Meaning |
+|---------|--------|---------|
+| `CL` | — | Chile |
+| `<type>` | `SFH`, `MFH`, `AB` | Single-family, multi-family, apartment block |
+| `<standard>` | `preN`, `intN`, `DS50` | Pre-normativa, intermediate normativa, DS50 |
+| `<construction>` | `mad`, `lad`, `mam`, `hor` | Wood light, wood heavy, masonry, concrete |
+
+**Examples:**
+
+| ID | Description |
+|----|-------------|
+| `CL.SFH.preN.mad` | Single-family, pre-normativa, light wood frame |
+| `CL.SFH.DS50.lad` | Single-family, DS50, heavy wood frame |
+| `CL.MFH.intN.mam` | Multi-family, intermediate, masonry |
+| `CL.AB.DS50.hor`  | Apartment block, DS50, reinforced concrete |
+
+27 archetypes in total: 3 types × 3 standards × 3 constructions = 27 (AB only has `hor`).
+
+### Chilean defaults applied when `country='CL'`
+
+| Parameter | Value | Notes |
+|-----------|-------|-------|
+| Heating setpoint | 18 °C | |
+| Cooling setpoint | 26 °C | |
+| Infiltration rate | 0.8 ACH | typical unretrofitted Chilean housing |
+| Heating system | Electric heater | |
+
+U-values from the archetype CSV can be overridden per simulation call using `U_Wall_1`, `U_Roof_1`, `U_Floor_1`, `U_Window_1` kwargs.
+
+---
+
+## `sim_demand_direct()` — solver-free demand calculation
+
+`Building5R1C.sim_demand_direct()` computes annual heating and cooling demand by solving the ISO 13790 5R1C energy balance analytically at each hourly timestep, without building or solving an LP.
+
+**Algorithm:**
+1. Extracts 5R1C parameters (conductances, thermal mass, profiles) via existing tsib machinery.
+2. Precomputes per-timestep gain vectors `Q_m` (mass node) and `Q_st` (surface/star node) from irradiance and internal gain profiles.
+3. Runs a forward-Euler time loop: at each step, analytically solves for free-float air temperature; if below heating setpoint, computes required `Q_H`; if above cooling setpoint, computes required `Q_C`.
+4. Iterates up to 5 times for the annual periodic boundary condition (start and end mass temperature converge to < 0.01 K).
+
+**Results written to `model.detailedResults`:**
+
+| Key | Unit | Description |
+|-----|------|-------------|
+| `"Heating Load"` | kW | hourly heating power |
+| `"Cooling Load"` | kW | hourly cooling power |
+| `"Electricity Load"` | kW | hourly electricity demand |
+| `"T_air"` | °C | indoor air temperature |
+| `"T_s"` | °C | surface/star node temperature |
+| `"T_m"` | °C | thermal mass temperature |
+
+`sim_demand()` is an alias for `sim_demand_direct()` kept for backwards compatibility.
+
+The original `sim5R1C()` method remains available for full refurbishment optimization (requires a Pyomo-compatible LP solver).
+
+---
+
+## Package structure
+
+```
+tsib/
+  buildingconfig.py          — BuildingConfiguration: kwarg validation, archetype lookup
+  buildingmodel.py           — Building class (high-level wrapper)
+  thermal/
+    model5R1C.py             — Building5R1C: 5R1C model + sim_demand_direct + sim5R1C
+  data/episcope/
+    episcope.csv             — TABULA/EPISCOPE EU archetypes (upstream, read-only)
+    CL_episcope.csv          — Chilean archetypes (27 rows)
+  weather/
+    testreferenceyear.py     — German DWD TRY adapter
+    chile.py                 — BD Ancestral TMY adapter (bd_tmy_to_tsib)
+```
+
+---
+
+## Running tests
+
+```bash
+# All tests
+pytest test/ -v
+
+# Chile-specific smoke tests only
+pytest test/test_chile.py -v
+```
+
+The Chile tests verify:
+1. `country='CL'` is accepted without error
+2. Pre-normativa SFH in cold zone (Zona G) returns heating demand > 50 kWh/m²/a
+3. DS50 SFH has lower heating demand than pre-normativa SFH in the same climate
+
+---
 
 ## License
 
 MIT License
 
-Copyright (C) 2016-2022 Leander Kotzur (FZJ IEK-3), Timo Kannengießer (FZK-IEK-3), Kevin Knosala (FZJ IEK-3), Peter Stenzel (FZJ IEK-3), Peter Markewitz (FZJ IEK-3), Martin Robinius (FZJ IEK-3), Detlef Stolten (FZJ IEK-3)
+Copyright (C) 2016–2022 Leander Kotzur (FZJ IEK-3), Timo Kannengießer, Kevin Knosala, Peter Stenzel, Peter Markewitz, Martin Robinius, Detlef Stolten (FZJ IEK-3)
 
-You should have received a copy of the MIT License along with this program.
-If not, see https://opensource.org/licenses/MIT
+Chile fork additions Copyright (C) 2024–2026 Fraunhofer Chile Research
 
-## About Us
-<p align="center"><a href="https://www.fz-juelich.de/en/iek/iek-3"><img src="https://github.com/OfficialCodexplosive/README_Assets/blob/master/iek3-wide.png?raw=true" alt="Institut TSA"></a></p>
-We are the <a href="https://www.fz-juelich.de/en/iek/iek-3">Institute of Energy and Climate Research - Techno-economic Systems Analysis (IEK-3)</a> belonging to the <a href="https://www.fz-juelich.de/en">Forschungszentrum Jülich</a>. Our interdisciplinary department's research is focusing on energy-related process and systems analyses. Data searches and system simulations are used to determine energy and mass balances, as well as to evaluate performance, emissions and costs of energy systems. The results are used for performing comparative assessment studies between the various systems. Our current priorities include the development of energy strategies, in accordance with the German Federal Government’s greenhouse gas reduction targets, by designing new infrastructures for sustainable and secure energy supply chains and by conducting cost analysis studies for integrating new technologies into future energy market frameworks.
+See [LICENSE](LICENSE) for the full text.
 
-## Acknowledgement
+---
 
-This work was supported by the Helmholtz Association under the Joint Initiative ["Energy System 2050   A Contribution of the Research Field Energy"](https://www.helmholtz.de/en/research/energy/energy_system_2050/).
+## Original tsib citation
 
-<a href="https://www.helmholtz.de/en/"><img src="https://www.helmholtz.de/fileadmin/user_upload/05_aktuelles/Marke_Design/logos/HG_LOGO_S_ENG_RGB.jpg" alt="Helmholtz Logo" width="200px" style="float:right"></a>
+If you use the 5R1C thermal model in published work, please cite:
+
+> Kotzur et al. (2018). *Impact of different time series aggregation methods on optimal energy system design.* Renewable Energy. [http://juser.fz-juelich.de/record/858675](http://juser.fz-juelich.de/record/858675)
