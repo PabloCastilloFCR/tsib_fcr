@@ -9,7 +9,10 @@ import os
 import warnings
 import logging
 
-import tinydb
+try:
+    import tinydb
+except ImportError:
+    tinydb = None
 import pandas as pd
 import numpy as np
 
@@ -83,6 +86,8 @@ class Building(object):
         '''
 
         if self._ID is None:
+            if tinydb is None:
+                raise RuntimeError("tinydb is required for automatic ID generation. Install it or set Building.ID manually.")
             db = tinydb.TinyDB(os.path.join(tsib.data.PATH, "results","db.json"))
 
             # check if building exists in database
