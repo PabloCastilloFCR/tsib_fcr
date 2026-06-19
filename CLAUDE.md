@@ -91,6 +91,7 @@ The spec listed ~19 columns, but `get_shape` and `get_fabric` in `buildingconfig
 - **`U_Actual_*`** — maps to `U_*` from spec; `get_fabric` writes these to `cfg["U_Wall_1"]` etc.
 - **`b_Transmission_Wall_1 = 1.0`**, `b_Transmission_Floor_1 = 0.45` (ground contact), roofs `= 1.0`
 - **Override key mapping** (implemented in `_get_fabric`): kwarg `U_Window_1` → `cfg["U_Window"]`, `g_gl_n` → `cfg["g_gl_n_Window"]`, `n_Infiltration` → `cfg["n_air_infiltration"]`
+- **`Code_BuildingSizeClass`**: must be present — derived from second segment of `Code_BuildingVariant` (`SFH`/`MFH`/`AB`). Used by `buildingconfig.py:531` to filter archetypes by `buildingType`; missing it causes fallback to European archetypes.
 - **`Code_RoofType`**: `"SD"` (sloped, 45°) for SFH/MFH; `"FR"` (flat, 0°) for AB
 
 See [README.md — Chilean archetypes](README.md#chilean-archetypes) for the full archetype classification and table.  
