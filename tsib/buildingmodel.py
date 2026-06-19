@@ -30,8 +30,7 @@ class Building(object):
         """
         A building model which uses the IWU-Buildingtopology for parameterizing
         the physical building of a model. This can then be used to first run an
-        occupancy simulation based on the CREST model (tsorb) and then a thermal
-        simulation based on a 5R1C model to predict the heat loads. 
+        thermal simulation based on a 5R1C model to predict the heat loads.
         
         Parameters
         ----------
