@@ -16,6 +16,7 @@ import pyomo.environ as pyomo
 import pyomo.opt as opt
 
 import tsib.thermal.utils as utils
+from tsib.profiles import as_hourly_series
 from pyomo.contrib import appsi
 
 
@@ -623,7 +624,7 @@ class Building5R1C(object):
 
         # get occupancy data and internal heat gains and electricity load
         # evaluate all profiles with 0 in case of time series aggregation
-        M.profiles["bQ_ig"] = self.cfg["Q_ig"]
+        M.profiles["bQ_ig"] = as_hourly_series(self.cfg["Q_ig"], self.times, name="Q_ig")
         M.profiles["bOccNotHome"] = self.cfg["occ_nothome"].values
         M.profiles["bOccSleeping"] = self.cfg["occ_sleeping"].values
         M.profiles["bElecLoad"] = self.cfg["elecLoad"].values
@@ -1223,7 +1224,13 @@ class Building5R1C(object):
         return designHeatLoad / 1000
 
 
-    def sim_demand_direct(self):
+    def sim_demand_direct(
+        self,
+        heating_setpoint=None,
+        cooling_setpoint=None,
+        heating_available=None,
+        cooling_available=None,
+    ):
         """Compute building heat/cooling demand via direct 5R1C time-stepping.
 
         Solves the ISO 13790 5R1C energy balance analytically at each hour
@@ -1231,7 +1238,31 @@ class Building5R1C(object):
 
         Results are written to self.detailedResults with the same keys as
         sim5R1C: 'Heating Load', 'Cooling Load', 'Electricity Load',
-        'T_air', 'T_s', 'T_m' (all 1-D numpy arrays, kW per hour).
+        'T_air', 'T_s', 'T_m', plus 'Heating Setpoint' and 'Cooling Setpoint'
+        (all 1-D numpy arrays, kW/°C per hour).
+
+        Parameters
+        ----------
+        heating_setpoint, cooling_setpoint: scalar, array-like or pd.Series, optional
+            Hourly comfort setpoints [°C]. If None (default), the constant
+            values from cfg["comfortT_lb"]/cfg["comfortT_ub"] are used —
+            identical to calling this method with no arguments. Any other
+            input is normalized to an hourly array aligned to self.times via
+            tsib.profiles.as_hourly_series (accepts scalar/list/ndarray/Series).
+        heating_available, cooling_available: array-like of bool, optional
+            Hourly availability mask. Where False, the corresponding
+            HVAC system is treated as switched off: the indoor air is left
+            to free-float instead of being clamped to the setpoint, and the
+            corresponding load is 0. This replaces the historical pattern of
+            representing "off" with extreme finite setpoints (e.g. -20/60°C),
+            which is not needed here since availability is explicit and no
+            real infinities are ever used. Defaults to available at every hour.
+
+        Raises
+        ------
+        ValueError
+            If setpoints contain non-finite values, have the wrong length, or
+            if cooling_setpoint <= heating_setpoint in any hour.
         """
         self.WACC = None
         self.lifetime = 40
@@ -1282,13 +1313,48 @@ class Building5R1C(object):
         H_is   = M_tmp.bH_is                       # surface–air [kW/K]
         C_m    = M_tmp.bC_m                        # thermal mass [kWh/K]
         dt     = M_tmp.stepSize                    # timestep [h]
-        T_lb   = M_tmp.bT_comf_lb                  # heating setpoint [°C]
-        T_ub   = M_tmp.bT_comf_ub                  # cooling setpoint [°C]
         U_win_kw = M_tmp.bU["Windows"][ix_win]     # window U-value [kW/(m²·K)]
         h_ms   = M_tmp.bConst["h_ms"]              # surface h.t.c. [kW/(m²·K)]
         A_tot  = M_tmp.bA_tot                      # total internal surface [m²]
         A_m    = M_tmp.bA_m                        # effective mass area [m²]
         A_f    = M_tmp.bA_f                        # floor area [m²]
+
+        # ── step 2b: resolve hourly setpoints and availability masks ──
+        T_lb_arr = (
+            np.full(N, float(M_tmp.bT_comf_lb))
+            if heating_setpoint is None
+            else as_hourly_series(heating_setpoint, self.times, name="heating_setpoint")
+        )
+        T_ub_arr = (
+            np.full(N, float(M_tmp.bT_comf_ub))
+            if cooling_setpoint is None
+            else as_hourly_series(cooling_setpoint, self.times, name="cooling_setpoint")
+        )
+        if np.any(T_ub_arr <= T_lb_arr):
+            n_violations = int(np.sum(T_ub_arr <= T_lb_arr))
+            raise ValueError(
+                f"cooling_setpoint must be strictly greater than heating_setpoint "
+                f"in every hour; {n_violations} hour(s) violate this."
+            )
+
+        heat_avail = (
+            np.ones(N, dtype=bool)
+            if heating_available is None
+            else np.asarray(heating_available, dtype=bool).reshape(-1)
+        )
+        cool_avail = (
+            np.ones(N, dtype=bool)
+            if cooling_available is None
+            else np.asarray(cooling_available, dtype=bool).reshape(-1)
+        )
+        if heat_avail.shape[0] != N:
+            raise ValueError(
+                f'"heating_available" has length {heat_avail.shape[0]}, expected {N}.'
+            )
+        if cool_avail.shape[0] != N:
+            raise ValueError(
+                f'"cooling_available" has length {cool_avail.shape[0]}, expected {N}.'
+            )
 
         # ── step 3: precompute per-timestep gain vectors ──
         T_e    = M_tmp.profiles["T_e"]              # outside air temp [°C]
@@ -1324,7 +1390,7 @@ class Building5R1C(object):
         T_s_r = np.zeros(N)
         T_air_r = np.zeros(N)
 
-        T_m0 = float(T_lb)  # initial condition — converged by periodic iteration
+        T_m0 = float(np.mean(T_lb_arr))  # initial condition — converged by periodic iteration
 
         for _pass in range(5):
             T_m_cur = T_m0
@@ -1333,27 +1399,31 @@ class Building5R1C(object):
                 qm  = float(Q_m[i])
                 qst = float(Q_st[i])
                 dTe = T_m_cur - te
+                T_lb = T_lb_arr[i]
+                T_ub = T_ub_arr[i]
 
                 # free-float surface and air temperatures
                 T_s_ff   = (2.0*qst + (H_ms - H_win)*T_m_cur + H_win*te
                             - H_vent*dTe) / H_ms
                 T_air_ff = T_s_ff + (qst - H_vent*dTe) / H_is
 
-                if T_air_ff < T_lb:
-                    # heating required
+                if T_air_ff < T_lb and heat_avail[i]:
+                    # heating required and heating system available
                     T_s_i   = (qst + (H_ms - H_win)*T_m_cur + H_win*te
                                + H_is*T_lb) / (H_ms + H_is)
                     T_air_i = T_lb
                     Q_H[i]  = max(0.0, H_vent*dTe + H_is*(T_lb - T_s_i) - qst)
                     Q_C[i]  = 0.0
-                elif T_air_ff > T_ub:
-                    # cooling required
+                elif T_air_ff > T_ub and cool_avail[i]:
+                    # cooling required and cooling system available
                     T_s_i   = (qst + (H_ms - H_win)*T_m_cur + H_win*te
                                + H_is*T_ub) / (H_ms + H_is)
                     T_air_i = T_ub
                     Q_C[i]  = max(0.0, -(H_vent*dTe + H_is*(T_ub - T_s_i) - qst))
                     Q_H[i]  = 0.0
                 else:
+                    # free-float: either within the comfort band, or the
+                    # binding system (heating/cooling) is unavailable this hour
                     T_s_i   = T_s_ff
                     T_air_i = T_air_ff
                     Q_H[i]  = 0.0
@@ -1378,6 +1448,8 @@ class Building5R1C(object):
         self.detailedResults["T_air"] = T_air_r
         self.detailedResults["T_s"]   = T_s_r
         self.detailedResults["T_m"]   = T_m_r
+        self.detailedResults["Heating Setpoint"] = T_lb_arr
+        self.detailedResults["Cooling Setpoint"] = T_ub_arr
 
     def sim_demand(self):
         """Alias for sim_demand_direct — kept for backwards compatibility."""

@@ -36,6 +36,20 @@ python -c "from pyomo.contrib import appsi; s = appsi.solvers.Highs(); print(s.a
 | 4 | Verify HiGHS solver works | env | ✅ |
 | 5 | Create `test/test_chile.py` (3 smoke tests) | `test/test_chile.py` | ✅ |
 | 6 | Bump version to `0.2.0-cl`, update package name | `setup.py` | ✅ |
+| 7 | Hourly setpoints + HVAC availability mask in `sim_demand_direct` | `tsib/thermal/model5R1C.py` | ✅ |
+| 8 | Normalize `Q_ig` (scalar/array/Series) via `as_hourly_series` | `tsib/thermal/model5R1C.py`, `tsib/profiles.py` | ✅ |
+| 9 | `calculate_dhw_load` + profile utilities | `tsib/profiles.py` | ✅ |
+| 10 | `t_mains` alias recognition + null-handling in `bd_tmy_to_tsib` | `tsib/weather/chile.py` | ✅ |
+| 11 | Validation examples (`sim_demand_direct`, DHW) | `examples/chile/` | ✅ |
+
+Tasks 7–11 implement the high-priority items from
+[`feature-request/README_request.md`](feature-request/README_request.md) (a request
+from the MERLIN_RCP integrator to move setpoint/DHW logic it was duplicating into
+this fork). See the README sections "`sim_demand_direct()`", "Domestic hot water",
+and "Water mains temperature" for usage. Item 8 of that request
+(`getHouseholdProfiles()`) was deliberately **not** restored — see
+"Occupancy profiles — currently unavailable in this fork" in README.md for why and
+how to reactivate it.
 
 ---
 
@@ -45,7 +59,9 @@ python -c "from pyomo.contrib import appsi; s = appsi.solvers.Highs(); print(s.a
 tsib/
   buildingconfig.py     ← KWARG_TYPES, KWARG_DEFAULTS, BuildingConfiguration
   buildingmodel.py      ← Building class (calls buildingconfig + 5R1C)
-  thermal/model5R1C.py  ← Pyomo LP/MILP optimization (requires solver)
+  profiles.py           ← as_hourly_series, calculate_dhw_load, normalize_daily_shape,
+                           normalize_profile_to_annual_energy, convert_thermal_to_final
+  thermal/model5R1C.py  ← Pyomo LP/MILP optimization (requires solver) + sim_demand_direct
   data/episcope/
     episcope.csv        ← TABULA/EPISCOPE EU archetypes (read-only)
     CL_episcope.csv     ← Chile archetypes to be created (27 rows)
@@ -64,11 +80,17 @@ The U-value override (task 1.3) must run **after** `_get_fabric` has written the
 ## Interface contract (do not break)
 
 MERLIN_RCP (consuming project) calls only:
-- `tsib.BuildingConfiguration(kwargs_dict)` 
-- `tsib.Building(cfg)` + `.getHeatLoad()`
-- `tsib.bd_tmy_to_tsib(df)` (to be added)
+- `tsib.BuildingConfiguration(kwargs_dict)`
+- `tsib.Building(cfg)` + `.getHeatLoad()` — OR, for the direct/no-solver path used by
+  `test/test_chile.py` and MERLIN's real simulation script:
+  `tsib.BuildingConfiguration(kwargs_dict, ignore_profiles=True).getBdgCfg(...)` →
+  inject `Q_ig`/`elecLoad`/`occ_nothome`/`occ_sleeping`/`hotWaterLoad` into the cfg
+  dict → `tsib.Building5R1C(cfg)` + `.sim_demand_direct(heating_setpoint=..., cooling_setpoint=..., heating_available=..., cooling_available=...)`
+- `tsib.bd_tmy_to_tsib(df, t_mains_nan_policy=..., require_t_mains=...)`
+- `tsib.calculate_dhw_load(...)`, `tsib.as_hourly_series(...)`, `tsib.normalize_daily_shape(...)`, `tsib.normalize_profile_to_annual_energy(...)`, `tsib.convert_thermal_to_final(...)`
 
-No other tsib internals are used by MERLIN_RCP.
+No other tsib internals are used by MERLIN_RCP. Do **not** rely on
+`tsib.getHouseholdProfiles()` — it was removed (see status table above).
 
 ---
 
