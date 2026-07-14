@@ -1,0 +1,4817 @@
+{
+  "titulo": "Zonificacion termica por comuna",
+  "fuente": "TABLA-ZT_REGIONES_PROVINCIAS-Y-COMUNAS.pdf (OGUC Art. 4.1.10 / Reglamentacion Termica, zonas A-I)",
+  "nota": "'unico'=true significa que la comuna tiene una unica zona termica sin condiciones (mayoria de los casos). Cuando 'unico'=false, 'reglas' lista 2-3 zonas posibles condicionadas a altitud (msnm) y/o meridiano (longitud); resolver requiere la altitud/longitud real del edificio, no solo el nombre de la comuna.",
+  "comunas": [
+    {
+      "region": "De Arica y Parinacota",
+      "provincia": "Arica",
+      "comuna": "Arica",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.100"
+        },
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "1.100 <= altitud < 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Arica y Parinacota",
+      "provincia": "Arica",
+      "comuna": "Camarones",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.100"
+        },
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "1.100 <= altitud < 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Arica y Parinacota",
+      "provincia": "Parinacota",
+      "comuna": "Putre",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Arica y Parinacota",
+      "provincia": "Parinacota",
+      "comuna": "General Lagos",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Tarapaca",
+      "provincia": "Iquique",
+      "comuna": "Iquique",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Tarapaca",
+      "provincia": "Tamarugal",
+      "comuna": "Camina",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "1.100 <= altitud < 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Tarapaca",
+      "provincia": "Tamarugal",
+      "comuna": "Colchane",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Tarapaca",
+      "provincia": "Tamarugal",
+      "comuna": "Huara",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.100"
+        },
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "1.100 <= altitud < 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Tarapaca",
+      "provincia": "Tamarugal",
+      "comuna": "Pica",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Tarapaca",
+      "provincia": "Tamarugal",
+      "comuna": "Pozo Almonte",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Tarapaca",
+      "provincia": "Iquique",
+      "comuna": "Alto Hospicio",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Antofagasta",
+      "provincia": "Antofagasta",
+      "comuna": "Antofagasta",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": ">= 70 deg",
+          "condicion_altitud": null
+        },
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": "< 70 deg",
+          "condicion_altitud": "< 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Antofagasta",
+      "provincia": "Antofagasta",
+      "comuna": "Mejillones",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Antofagasta",
+      "provincia": "Antofagasta",
+      "comuna": "Sierra Gorda",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Antofagasta",
+      "provincia": "Antofagasta",
+      "comuna": "Taltal",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": ">= 70 deg",
+          "condicion_altitud": null
+        },
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": "< 70 deg",
+          "condicion_altitud": "< 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Antofagasta",
+      "provincia": "El Loa",
+      "comuna": "Calama",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Antofagasta",
+      "provincia": "El Loa",
+      "comuna": "Ollague",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Antofagasta",
+      "provincia": "El Loa",
+      "comuna": "San Pedro de Atacama",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Antofagasta",
+      "provincia": "Tocopilla",
+      "comuna": "Tocopilla",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Antofagasta",
+      "provincia": "Tocopilla",
+      "comuna": "Maria Elena",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Atacama",
+      "provincia": "Copiapo",
+      "comuna": "Copiapo",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": "> 70 deg 44'",
+          "condicion_altitud": null
+        },
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": "<= 70 deg 44'",
+          "condicion_altitud": "< 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Atacama",
+      "provincia": "Copiapo",
+      "comuna": "Caldera",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Atacama",
+      "provincia": "Copiapo",
+      "comuna": "Tierra Amarilla",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Atacama",
+      "provincia": "Chanaral",
+      "comuna": "Chanaral",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Atacama",
+      "provincia": "Chanaral",
+      "comuna": "Diego de Almagro",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Atacama",
+      "provincia": "Huasco",
+      "comuna": "Vallenar",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Atacama",
+      "provincia": "Huasco",
+      "comuna": "Alto del Carmen",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Atacama",
+      "provincia": "Huasco",
+      "comuna": "Freirina",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Atacama",
+      "provincia": "Huasco",
+      "comuna": "Huasco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Elqui",
+      "comuna": "La Serena",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": "> 71 deg",
+          "condicion_altitud": null
+        },
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": "<= 71 deg",
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Elqui",
+      "comuna": "Coquimbo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Elqui",
+      "comuna": "Andacollo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Elqui",
+      "comuna": "La Higuera",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": "> 71 deg",
+          "condicion_altitud": null
+        },
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": "<= 71 deg",
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Elqui",
+      "comuna": "Paiguano",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Elqui",
+      "comuna": "Vicuna",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Choapa",
+      "comuna": "Illapel",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 2.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 2.000"
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Choapa",
+      "comuna": "Canela",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Choapa",
+      "comuna": "Los Vilos",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Choapa",
+      "comuna": "Salamanca",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 2.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 2.000"
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Limari",
+      "comuna": "Ovalle",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": "> 71 deg 15'",
+          "condicion_altitud": null
+        },
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": "<= 71 deg 15'",
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Limari",
+      "comuna": "Combarbala",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 2.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 2.000"
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Limari",
+      "comuna": "Monte Patria",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 2.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 2.000"
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Limari",
+      "comuna": "Punitaqui",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Coquimbo",
+      "provincia": "Limari",
+      "comuna": "Rio Hurtado",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "B",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 3.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 3.000"
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Valparaiso",
+      "comuna": "Valparaiso",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Valparaiso",
+      "comuna": "Casablanca",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Valparaiso",
+      "comuna": "Concon",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Valparaiso",
+      "comuna": "Juan Fernandez",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Valparaiso",
+      "comuna": "Puchuncavi",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Marga Marga",
+      "comuna": "Quilpue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Valparaiso",
+      "comuna": "Quintero",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Marga Marga",
+      "comuna": "Villa Alemana",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Valparaiso",
+      "comuna": "Vina del Mar",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Isla de Pascua",
+      "comuna": "Isla de Pascua",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "A",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Los Andes",
+      "comuna": "Los Andes",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 2.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 2.000"
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Los Andes",
+      "comuna": "Calle Larga",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Los Andes",
+      "comuna": "Rinconada",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Los Andes",
+      "comuna": "San Esteban",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 2.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 2.000"
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Petorca",
+      "comuna": "La Ligua",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": "> 71 deg 15'",
+          "condicion_altitud": null
+        },
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": "<= 71 deg 15'",
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Petorca",
+      "comuna": "Cabildo",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 2.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 2.000"
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Petorca",
+      "comuna": "Papudo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Petorca",
+      "comuna": "Petorca",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 2.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 2.000"
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Petorca",
+      "comuna": "Zapallar",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Quillota",
+      "comuna": "Quillota",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Quillota",
+      "comuna": "Calera",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Quillota",
+      "comuna": "Hijuelas",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Quillota",
+      "comuna": "La Cruz",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Marga Marga",
+      "comuna": "Limache",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Quillota",
+      "comuna": "Nogales",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "Marga Marga",
+      "comuna": "Olmue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "San Antonio",
+      "comuna": "San Antonio",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "San Antonio",
+      "comuna": "Algarrobo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "San Antonio",
+      "comuna": "Cartagena",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "San Antonio",
+      "comuna": "El Quisco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "San Antonio",
+      "comuna": "El Tabo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "San Antonio",
+      "comuna": "Santo Domingo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "San Felipe",
+      "comuna": "San Felipe",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "San Felipe",
+      "comuna": "Catemu",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "San Felipe",
+      "comuna": "Llaillay",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "San Felipe",
+      "comuna": "Panquehue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "San Felipe",
+      "comuna": "Putaendo",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 2.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 2.000"
+        }
+      ]
+    },
+    {
+      "region": "De Valparaiso",
+      "provincia": "San Felipe",
+      "comuna": "Santa Maria",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Santiago",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Cerrillos",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Cerro Navia",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Conchali",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "El Bosque",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Estacion Central",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Huechuraba",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Independencia",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "La Cisterna",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "La Florida",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "La Granja",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "La Pintana",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "La Reina",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Las Condes",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Lo Barnechea",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 2.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 2.000"
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Lo Espejo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Lo Prado",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Macul",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Maipu",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Nunoa",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Pedro Aguirre Cerda",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Penalolen",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Providencia",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Pudahuel",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Quilicura",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Quinta Normal",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Recoleta",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Renca",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "San Joaquin",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "San Miguel",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "San Ramon",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Santiago",
+      "comuna": "Vitacura",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Cordillera",
+      "comuna": "Puente Alto",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Cordillera",
+      "comuna": "Pirque",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Cordillera",
+      "comuna": "San Jose de Maipo",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 2.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 2.000"
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Chacabuco",
+      "comuna": "Colina",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 2.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 2.000"
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Chacabuco",
+      "comuna": "Lampa",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Chacabuco",
+      "comuna": "Tiltil",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Maipo",
+      "comuna": "San Bernardo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Maipo",
+      "comuna": "Buin",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Maipo",
+      "comuna": "Calera de Tango",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Maipo",
+      "comuna": "Paine",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Melipilla",
+      "comuna": "Melipilla",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Melipilla",
+      "comuna": "Alhue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Melipilla",
+      "comuna": "Curacavi",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Melipilla",
+      "comuna": "Maria Pinto",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Melipilla",
+      "comuna": "San Pedro",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Talagante",
+      "comuna": "Talagante",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Talagante",
+      "comuna": "El Monte",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Talagante",
+      "comuna": "Isla de Maipo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Talagante",
+      "comuna": "Padre Hurtado",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "provincia": "Talagante",
+      "comuna": "Penaflor",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Rancagua",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Codegua",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Coinco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Coltauco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Donihue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Graneros",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Las Cabras",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Machali",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Malloa",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Mostazal",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Olivar",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Peumo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Pichidegua",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Quinta de Tilcoco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Rengo",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "Requinoa",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cachapoal",
+      "comuna": "San Vicente",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cardenal Caro",
+      "comuna": "Pichilemu",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cardenal Caro",
+      "comuna": "La Estrella",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cardenal Caro",
+      "comuna": "Litueche",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cardenal Caro",
+      "comuna": "Marchihue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cardenal Caro",
+      "comuna": "Navidad",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Cardenal Caro",
+      "comuna": "Paredones",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Colchagua",
+      "comuna": "San Fernando",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Colchagua",
+      "comuna": "Chepica",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Colchagua",
+      "comuna": "Chimbarongo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Colchagua",
+      "comuna": "Lolol",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Colchagua",
+      "comuna": "Nancagua",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Colchagua",
+      "comuna": "Palmilla",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Colchagua",
+      "comuna": "Peralillo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Colchagua",
+      "comuna": "Placilla",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Colchagua",
+      "comuna": "Pumanque",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Libertador B. O'Higgins",
+      "provincia": "Colchagua",
+      "comuna": "Santa Cruz",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Talca",
+      "comuna": "Talca",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Talca",
+      "comuna": "Constitucion",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Talca",
+      "comuna": "Curepto",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Talca",
+      "comuna": "Empedrado",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Talca",
+      "comuna": "Maule",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Talca",
+      "comuna": "Pelarco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Talca",
+      "comuna": "Pencahue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Talca",
+      "comuna": "Rio Claro",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Talca",
+      "comuna": "San Clemente",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Talca",
+      "comuna": "San Rafael",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Cauquenes",
+      "comuna": "Cauquenes",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Cauquenes",
+      "comuna": "Chanco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Cauquenes",
+      "comuna": "Pelluhue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Curico",
+      "comuna": "Curico",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Curico",
+      "comuna": "Hualane",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Curico",
+      "comuna": "Licanten",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Curico",
+      "comuna": "Molina",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Curico",
+      "comuna": "Rauco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Curico",
+      "comuna": "Romeral",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Curico",
+      "comuna": "Sagrada Familia",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Curico",
+      "comuna": "Teno",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Curico",
+      "comuna": "Vichuquen",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "C",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Linares",
+      "comuna": "Linares",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Linares",
+      "comuna": "Colbun",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Linares",
+      "comuna": "Longavi",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Linares",
+      "comuna": "Parral",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Linares",
+      "comuna": "Retiro",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Linares",
+      "comuna": "San Javier",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Linares",
+      "comuna": "Villa Alegre",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Maule",
+      "provincia": "Linares",
+      "comuna": "Yerbas Buenas",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "D",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Concepcion",
+      "comuna": "Concepcion",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Concepcion",
+      "comuna": "Coronel",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Concepcion",
+      "comuna": "Chiguayante",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Concepcion",
+      "comuna": "Florida",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Concepcion",
+      "comuna": "Hualqui",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Concepcion",
+      "comuna": "Lota",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Concepcion",
+      "comuna": "Penco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Concepcion",
+      "comuna": "San Pedro de la Paz",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Concepcion",
+      "comuna": "Santa Juana",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Concepcion",
+      "comuna": "Talcahuano",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Concepcion",
+      "comuna": "Tome",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Concepcion",
+      "comuna": "Hualpen",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Arauco",
+      "comuna": "Lebu",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Arauco",
+      "comuna": "Arauco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Arauco",
+      "comuna": "Canete",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Arauco",
+      "comuna": "Contulmo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Arauco",
+      "comuna": "Curanilahue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Arauco",
+      "comuna": "Los Alamos",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Arauco",
+      "comuna": "Tirua",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "Los Angeles",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "Antuco",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": "> 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "Cabrero",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "Laja",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "Mulchen",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "Nacimiento",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "Negrete",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "Quilaco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "Quilleco",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "San Rosendo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "Santa Barbara",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "Tucapel",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "Yumbel",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "Del Biobio",
+      "provincia": "Bio-Bio",
+      "comuna": "Alto Biobio",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Diguillin",
+      "comuna": "Chillan",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Diguillin",
+      "comuna": "Bulnes",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Diguillin",
+      "comuna": "Chillan Viejo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Diguillin",
+      "comuna": "El Carmen",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Diguillin",
+      "comuna": "Pemuco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Diguillin",
+      "comuna": "Pinto",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Diguillin",
+      "comuna": "Quillon",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Diguillin",
+      "comuna": "San Ignacio",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Diguillin",
+      "comuna": "Yungay",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Punilla",
+      "comuna": "San Carlos",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Punilla",
+      "comuna": "Coihueco",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Punilla",
+      "comuna": "Niquen",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Punilla",
+      "comuna": "San Fabian",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": "< 1.000"
+        },
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": ">= 1.000"
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Punilla",
+      "comuna": "San Nicolas",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Itata",
+      "comuna": "Quirihue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Itata",
+      "comuna": "Cobquecura",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Itata",
+      "comuna": "Coelemu",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Itata",
+      "comuna": "Ninhue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Itata",
+      "comuna": "Portezuelo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Itata",
+      "comuna": "Ranquil",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Nuble",
+      "provincia": "Itata",
+      "comuna": "Treguaco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Temuco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Carahue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Cunco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Curarrehue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Freire",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Galvarino",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Gorbea",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Lautaro",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Loncoche",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Melipeuco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Nueva Imperial",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Padre Las Casas",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Perquenco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Pitrufquen",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Pucon",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Saavedra",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Teodoro Schmidt",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Tolten",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "E",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Vilcun",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Villarrica",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Cautin",
+      "comuna": "Cholchol",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Malleco",
+      "comuna": "Angol",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Malleco",
+      "comuna": "Collipulli",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Malleco",
+      "comuna": "Curacautin",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Malleco",
+      "comuna": "Ercilla",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Malleco",
+      "comuna": "Lonquimay",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "H",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Malleco",
+      "comuna": "Los Sauces",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Malleco",
+      "comuna": "Lumaco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Malleco",
+      "comuna": "Puren",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Malleco",
+      "comuna": "Renaico",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Malleco",
+      "comuna": "Traiguen",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De La Araucania",
+      "provincia": "Malleco",
+      "comuna": "Victoria",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Rios",
+      "provincia": "Valdivia",
+      "comuna": "Valdivia",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Rios",
+      "provincia": "Valdivia",
+      "comuna": "Corral",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Rios",
+      "provincia": "Ranco",
+      "comuna": "Futrono",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Rios",
+      "provincia": "Ranco",
+      "comuna": "La Union",
+      "unico": false,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": "> 73 deg 15'",
+          "condicion_altitud": null
+        },
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": "<= 73 deg 15'",
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Rios",
+      "provincia": "Ranco",
+      "comuna": "Lago Ranco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Rios",
+      "provincia": "Valdivia",
+      "comuna": "Lanco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Rios",
+      "provincia": "Valdivia",
+      "comuna": "Los Lagos",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Rios",
+      "provincia": "Valdivia",
+      "comuna": "Mafil",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Rios",
+      "provincia": "Valdivia",
+      "comuna": "Mariquina",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Rios",
+      "provincia": "Valdivia",
+      "comuna": "Paillaco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Rios",
+      "provincia": "Valdivia",
+      "comuna": "Panguipulli",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Rios",
+      "provincia": "Ranco",
+      "comuna": "Rio Bueno",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "F",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Llanquihue",
+      "comuna": "Puerto Montt",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Llanquihue",
+      "comuna": "Calbuco",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Llanquihue",
+      "comuna": "Cochamo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Llanquihue",
+      "comuna": "Fresia",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Llanquihue",
+      "comuna": "Frutillar",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Llanquihue",
+      "comuna": "Los Muermos",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Llanquihue",
+      "comuna": "Llanquihue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Llanquihue",
+      "comuna": "Maullin",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Llanquihue",
+      "comuna": "Puerto Varas",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Chiloe",
+      "comuna": "Castro",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Chiloe",
+      "comuna": "Ancud",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Chiloe",
+      "comuna": "Chonchi",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Chiloe",
+      "comuna": "Curaco de Velez",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Chiloe",
+      "comuna": "Dalcahue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Chiloe",
+      "comuna": "Puqueldon",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Chiloe",
+      "comuna": "Queilen",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Chiloe",
+      "comuna": "Quellon",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Chiloe",
+      "comuna": "Quemchi",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Chiloe",
+      "comuna": "Quinchao",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Osorno",
+      "comuna": "Osorno",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Osorno",
+      "comuna": "Puerto Octay",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Osorno",
+      "comuna": "Purranque",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Osorno",
+      "comuna": "Puyehue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Osorno",
+      "comuna": "Rio Negro",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Osorno",
+      "comuna": "San Juan de la Costa",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Osorno",
+      "comuna": "San Pablo",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Palena",
+      "comuna": "Chaiten",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Palena",
+      "comuna": "Futaleufu",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Palena",
+      "comuna": "Hualaihue",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "G",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Los Lagos",
+      "provincia": "Palena",
+      "comuna": "Palena",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Aisen del Gral. C. Ibanez del Campo",
+      "provincia": "Coihaique",
+      "comuna": "Coihaique",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Aisen del Gral. C. Ibanez del Campo",
+      "provincia": "Coihaique",
+      "comuna": "Lago Verde",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Aisen del Gral. C. Ibanez del Campo",
+      "provincia": "Aisen",
+      "comuna": "Aisen",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Aisen del Gral. C. Ibanez del Campo",
+      "provincia": "Aisen",
+      "comuna": "Cisnes",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Aisen del Gral. C. Ibanez del Campo",
+      "provincia": "Aisen",
+      "comuna": "Guaitecas",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Aisen del Gral. C. Ibanez del Campo",
+      "provincia": "Capitan Prat",
+      "comuna": "Cochrane",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Aisen del Gral. C. Ibanez del Campo",
+      "provincia": "Capitan Prat",
+      "comuna": "O'Higgins",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Aisen del Gral. C. Ibanez del Campo",
+      "provincia": "Capitan Prat",
+      "comuna": "Tortel",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Aisen del Gral. C. Ibanez del Campo",
+      "provincia": "General Carrera",
+      "comuna": "Chile Chico",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Aisen del Gral. C. Ibanez del Campo",
+      "provincia": "General Carrera",
+      "comuna": "Rio Ibanez",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Magallanes y de La Antartica Chilena",
+      "provincia": "Magallanes",
+      "comuna": "Punta Arenas",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Magallanes y de La Antartica Chilena",
+      "provincia": "Magallanes",
+      "comuna": "Laguna Blanca",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Magallanes y de La Antartica Chilena",
+      "provincia": "Magallanes",
+      "comuna": "Rio Verde",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Magallanes y de La Antartica Chilena",
+      "provincia": "Magallanes",
+      "comuna": "San Gregorio",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Magallanes y de La Antartica Chilena",
+      "provincia": "Antartica Chilena",
+      "comuna": "Cabo de Hornos",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Magallanes y de La Antartica Chilena",
+      "provincia": "Tierra del Fuego",
+      "comuna": "Porvenir",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Magallanes y de La Antartica Chilena",
+      "provincia": "Tierra del Fuego",
+      "comuna": "Primavera",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Magallanes y de La Antartica Chilena",
+      "provincia": "Tierra del Fuego",
+      "comuna": "Timaukel",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Magallanes y de La Antartica Chilena",
+      "provincia": "Ultima Esperanza",
+      "comuna": "Natales",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    },
+    {
+      "region": "De Magallanes y de La Antartica Chilena",
+      "provincia": "Ultima Esperanza",
+      "comuna": "Torres del Paine",
+      "unico": true,
+      "reglas": [
+        {
+          "zona_termica": "I",
+          "condicion_meridiano": null,
+          "condicion_altitud": null
+        }
+      ]
+    }
+  ]
+}
