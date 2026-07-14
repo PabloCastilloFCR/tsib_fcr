@@ -15,7 +15,7 @@ import numpy as np
 import pandas as pd
 import tsib
 
-ARCHETYPE_ID = "CL.SFH.preN.mad"          # single-family, pre-code, wood frame
+ARCHETYPE_ID = "CL.SFH.preRT.mad.G"       # single-family, pre-code, wood frame, cold zone
 A_REF        = 60.0                        # conditioned floor area [m2]
 U_VALS = {
     "U_Wall_1":   2.7,

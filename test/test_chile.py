@@ -4,6 +4,8 @@ Bypasses tsorb (pd.datetime incompatible con pandas >= 2.0) usando el mismo
 patrón que simulate_santiago_tower_tsib.py: Building5R1C directamente con
 perfiles deterministas inyectados en cfg antes de sim5R1C().
 """
+import os
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -72,7 +74,7 @@ def test_country_cl_accepted():
     """BuildingConfiguration no debe lanzar error con country='CL'."""
     tmy = _make_synthetic_tmy()
     tsib.BuildingConfiguration({
-        "ID":          "CL.SFH.intN.lad",
+        "ID":          "CL.SFH.RT2.lad.D",
         "country":     "CL",
         "a_ref":       65.0,
         "weatherData": tmy,
@@ -87,7 +89,7 @@ def test_sfh_prenorma_madera_zona_g():
         "U_Wall_1": 2.7, "U_Roof_1": 2.5,
         "U_Floor_1": 1.4, "U_Window_1": 5.8,
     }
-    q_h_nd = _run_heat_load("CL.SFH.preN.mad", tmy, 60.0, u_vals)
+    q_h_nd = _run_heat_load("CL.SFH.preRT.mad.G", tmy, 60.0, u_vals)
     assert q_h_nd > 50,   f"q_h_nd={q_h_nd:.1f} kWh/m²/a demasiado bajo para zona G pre-norma"
     assert q_h_nd < 1500, f"q_h_nd={q_h_nd:.1f} kWh/m²/a irrealmente alto"
 
@@ -97,9 +99,133 @@ def test_sfh_ds50_menor_que_prenorma():
     tmy = _make_synthetic_tmy(T_mean=6.0)
     u_prenorma = {"U_Wall_1": 2.7, "U_Roof_1": 2.5, "U_Floor_1": 1.4, "U_Window_1": 5.8}
     u_ds50     = {"U_Wall_1": 0.6, "U_Roof_1": 0.6, "U_Floor_1": 0.5, "U_Window_1": 2.8}
-    q_pre = _run_heat_load("CL.SFH.preN.mad", tmy, 60.0, u_prenorma, weather_id="test_pre")
-    q_ds  = _run_heat_load("CL.SFH.DS50.mad", tmy, 60.0, u_ds50,     weather_id="test_ds50")
+    q_pre = _run_heat_load("CL.SFH.preRT.mad.D", tmy, 60.0, u_prenorma, weather_id="test_pre")
+    q_ds  = _run_heat_load("CL.SFH.post2021.mad.D", tmy, 60.0, u_ds50,     weather_id="test_ds50")
     assert q_pre > q_ds, f"pre-norma ({q_pre:.1f}) debe ser > DS50 ({q_ds:.1f}) kWh/m²/a"
+
+
+# ── material/thermalZone: lookup de U-values propio de tsib ──
+
+def _zone_uvalues_row(material, period, zone):
+    path = os.path.join(
+        os.path.dirname(tsib.__file__), "data", "episcope", "CL_zone_uvalues.csv"
+    )
+    df = pd.read_csv(path)
+    row = df[
+        (df["Code_Material"] == material)
+        & (df["Code_Period"] == period)
+        & (df["Code_Zone"] == zone)
+    ]
+    assert len(row) == 1
+    return row.iloc[0]
+
+
+def test_material_and_thermal_zone_lookup_matches_csv():
+    """Sin ID ni U_* explícitos: buildingType+buildingYear+material+thermalZone
+    debe resolver el archetype correcto y aplicar los U-values de
+    CL_zone_uvalues.csv (no los zone-neutral de CL_episcope.csv)."""
+    tmy = _make_synthetic_tmy()
+    expected = _zone_uvalues_row("lad", "preRT", "G")  # buildingYear=1990 -> preRT (<=1999)
+
+    cfg = tsib.BuildingConfiguration(
+        {
+            "country": "CL",
+            "buildingYear": 1990,
+            "buildingType": "SFH",
+            "material": "lad",
+            "thermalZone": "G",
+            "a_ref": 60.0,
+            "weatherData": tmy,
+            "weatherID": "test_material_zone",
+            "refurbishment": False,
+        },
+        ignore_profiles=True,
+    ).getBdgCfg(includeSupply=False)
+
+    assert cfg["U_Wall_1"] == pytest.approx(expected["U_Wall_1"])
+    assert cfg["U_Roof_1"] == pytest.approx(expected["U_Roof_1"])
+    assert cfg["U_Floor_1"] == pytest.approx(expected["U_Floor_1"])
+    assert cfg["U_Window"] == pytest.approx(expected["U_Window_1"])
+
+
+def test_explicit_u_values_override_thermal_zone_lookup():
+    """Un U_Wall_1 explícito sigue ganando sobre el lookup de thermalZone
+    (compatibilidad hacia atrás con validation_direct_5r1c.py / MERLIN_RCP)."""
+    tmy = _make_synthetic_tmy()
+
+    cfg = tsib.BuildingConfiguration(
+        {
+            "ID": "CL.SFH.preRT.lad.G",
+            "country": "CL",
+            "thermalZone": "G",
+            "U_Wall_1": 9.9,
+            "a_ref": 60.0,
+            "weatherData": tmy,
+            "weatherID": "test_zone_override",
+            "refurbishment": False,
+        },
+        ignore_profiles=True,
+    ).getBdgCfg(includeSupply=False)
+
+    assert cfg["U_Wall_1"] == pytest.approx(9.9)
+
+
+def test_material_filter_selects_correct_archetype_row():
+    """buildingType+buildingYear+material+thermalZone debe elegir la fila del
+    material pedido (no siempre '.hor', el bug de desempate original)."""
+    tmy = _make_synthetic_tmy()
+    expected = _zone_uvalues_row("mad", "preRT", "G")
+
+    cfg_mad = tsib.BuildingConfiguration(
+        {
+            "country": "CL",
+            "buildingYear": 1990,
+            "buildingType": "SFH",
+            "material": "mad",
+            "thermalZone": "G",
+            "a_ref": 60.0,
+            "weatherData": tmy,
+            "weatherID": "test_material_mad",
+            "refurbishment": False,
+        },
+        ignore_profiles=True,
+    ).getBdgCfg(includeSupply=False)
+
+    assert cfg_mad["U_Wall_1"] == pytest.approx(expected["U_Wall_1"])
+
+
+def test_thermal_zone_period_uses_actual_building_year_not_geometry_period():
+    """buildingYear resuelve directamente la fila de archetype de 5 bandas
+    (preRT/RT1/RT2/CEV/post2021) via el filtro genérico de Year1/Year2
+    Building. Dos anios que bajo el viejo esquema de 3 bandas hubiesen caido
+    ambos en 'intN' (2000-2015) ahora resuelven filas distintas (RT1 vs. RT2)
+    con U-values distintos."""
+    tmy = _make_synthetic_tmy()
+
+    def _cfg_for_year(year, weather_id):
+        return tsib.BuildingConfiguration(
+            {
+                "country": "CL",
+                "buildingYear": year,
+                "buildingType": "SFH",
+                "material": "hor",
+                "thermalZone": "D",  # best-sampled zone
+                "a_ref": 60.0,
+                "weatherData": tmy,
+                "weatherID": weather_id,
+                "refurbishment": False,
+            },
+            ignore_profiles=True,
+        ).getBdgCfg(includeSupply=False)
+
+    cfg_rt1 = _cfg_for_year(2003, "test_rt1")   # RT1 (2000-2006)
+    cfg_rt2 = _cfg_for_year(2012, "test_rt2")   # RT2 (2007-2014)
+
+    expected_rt1 = _zone_uvalues_row("hor", "RT1", "D")
+    expected_rt2 = _zone_uvalues_row("hor", "RT2", "D")
+
+    assert cfg_rt1["U_Wall_1"] == pytest.approx(expected_rt1["U_Wall_1"])
+    assert cfg_rt2["U_Wall_1"] == pytest.approx(expected_rt2["U_Wall_1"])
 
 
 # ── sim_demand_direct: setpoints horarios y máscara de disponibilidad ──
@@ -113,11 +239,11 @@ def test_sim_demand_direct_hourly_setpoints_match_constant_default():
     tmy = _make_synthetic_tmy(T_mean=6.0)
     n = len(tmy)
 
-    cfg_a = _build_cfg("CL.SFH.preN.mad", tmy, 60.0, _U_VALS_PRENORMA, weather_id="test_default")
+    cfg_a = _build_cfg("CL.SFH.preRT.mad.D", tmy, 60.0, _U_VALS_PRENORMA, weather_id="test_default")
     model_a = tsib.Building5R1C(cfg_a)
     model_a.sim_demand_direct()
 
-    cfg_b = _build_cfg("CL.SFH.preN.mad", tmy, 60.0, _U_VALS_PRENORMA, weather_id="test_explicit")
+    cfg_b = _build_cfg("CL.SFH.preRT.mad.D", tmy, 60.0, _U_VALS_PRENORMA, weather_id="test_explicit")
     model_b = tsib.Building5R1C(cfg_b)
     model_b.sim_demand_direct(
         heating_setpoint=np.full(n, cfg_b["comfortT_lb"]),
@@ -141,7 +267,7 @@ def test_sim_demand_direct_heating_available_mask_forces_free_float():
     y dejar T_air en free-float, sin usar setpoints infinitos."""
     tmy = _make_synthetic_tmy(T_mean=-5.0)  # frío: calefacción se activaría todas las horas
     n = len(tmy)
-    cfg = _build_cfg("CL.SFH.preN.mad", tmy, 60.0, _U_VALS_PRENORMA, weather_id="test_avail")
+    cfg = _build_cfg("CL.SFH.preRT.mad.D", tmy, 60.0, _U_VALS_PRENORMA, weather_id="test_avail")
 
     heating_available = np.ones(n, dtype=bool)
     heating_available[:24] = False
@@ -155,7 +281,7 @@ def test_sim_demand_direct_heating_available_mask_forces_free_float():
 
 def test_sim_demand_direct_rejects_non_finite_setpoints():
     tmy = _make_synthetic_tmy()
-    cfg = _build_cfg("CL.SFH.intN.lad", tmy, 65.0, weather_id="test_nonfinite")
+    cfg = _build_cfg("CL.SFH.RT2.lad.D", tmy, 65.0, weather_id="test_nonfinite")
     model = tsib.Building5R1C(cfg)
     bad_setpoint = np.full(len(tmy), np.nan)
     with pytest.raises(ValueError):
@@ -164,7 +290,7 @@ def test_sim_demand_direct_rejects_non_finite_setpoints():
 
 def test_sim_demand_direct_rejects_inverted_setpoints():
     tmy = _make_synthetic_tmy()
-    cfg = _build_cfg("CL.SFH.intN.lad", tmy, 65.0, weather_id="test_inverted")
+    cfg = _build_cfg("CL.SFH.RT2.lad.D", tmy, 65.0, weather_id="test_inverted")
     model = tsib.Building5R1C(cfg)
     n = len(tmy)
     with pytest.raises(ValueError):
@@ -185,7 +311,7 @@ def test_q_ig_accepts_scalar_array_and_series():
         ("array", np.full(n, 0.3)),
         ("series", pd.Series(np.full(n, 0.3), index=tmy.index)),
     ]:
-        cfg = _build_cfg("CL.SFH.intN.lad", tmy, 65.0, weather_id=f"test_qig_{label}")
+        cfg = _build_cfg("CL.SFH.RT2.lad.D", tmy, 65.0, weather_id=f"test_qig_{label}")
         cfg["Q_ig"] = q_ig
         model = tsib.Building5R1C(cfg)
         model.sim_demand_direct()
@@ -197,7 +323,7 @@ def test_q_ig_accepts_scalar_array_and_series():
 
 def test_q_ig_rejects_wrong_length():
     tmy = _make_synthetic_tmy()
-    cfg = _build_cfg("CL.SFH.intN.lad", tmy, 65.0, weather_id="test_qig_badlen")
+    cfg = _build_cfg("CL.SFH.RT2.lad.D", tmy, 65.0, weather_id="test_qig_badlen")
     cfg["Q_ig"] = np.full(10, 0.3)  # wrong length
     model = tsib.Building5R1C(cfg)
     with pytest.raises(ValueError):

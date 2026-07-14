@@ -101,6 +101,8 @@ KWARG_TYPES = {
     "U_Window_1": float,
     "n_Infiltration": float,
     "g_gl_n": float,
+    "material": ["mad", "lad", "hor", "met", "prefab", "adobe"],  # envelope material, selects the matching CL_episcope.csv archetype row
+    "thermalZone": ["A", "B", "C", "D", "E", "F", "G", "H", "I"],  # CL thermal zone (zona_termica), selects the matching CL_episcope.csv archetype row
 }
 
 KWARG_DEFAULTS_CL = {
@@ -474,14 +476,21 @@ class BuildingConfiguration(object):
             cfg (dict): Configuration which gets extend.
             kwgs (dict): Input arguments.
         """
+        # consumed here regardless of lookup path below, so they never trip
+        # the "unused kwarg" warning in getBdgCfg
+        material = kwgs.pop("material", None)
+        thermal_zone = kwgs.pop("thermalZone", None)
+
         ### Either use predefined building types
         iwu_bdgs = self.iwu_bdgs
         if "ID" in kwgs:
             iwu_bdg = self.iwu_bdgs.loc[kwgs["ID"],:].to_dict()
-            
-            
+
+
             cfg['a_ref'] = iwu_bdg['A_C_Ref']
-            cfg['buildingYear'] = iwu_bdg['Year1_Building']
+            # prefer an explicitly-passed buildingYear over the archetype's
+            # own range start; pop it so it doesn't trip the unused-kwarg check
+            cfg['buildingYear'] = kwgs.pop('buildingYear', iwu_bdg['Year1_Building'])
             cfg["n_apartments"] = iwu_bdg["n_Apartment"]
 
             return cfg, iwu_bdg
@@ -531,7 +540,18 @@ class BuildingConfiguration(object):
             iwu_bdgs["buildingType fits"] = iwu_bdgs["Code_BuildingSizeClass"] == type
             sort_by.append("buildingType fits")
             query_parameters["buildingType"] = type
-        
+
+        # -- get the envelope material (CL archetypes only) --
+        if material is not None:
+            iwu_bdgs["material fits"] = iwu_bdgs["Code_Material"] == material
+            sort_by.append("material fits")
+            query_parameters["material"] = material
+
+        # -- get the thermal zone (CL archetypes only) --
+        if thermal_zone is not None:
+            iwu_bdgs["thermalZone fits"] = iwu_bdgs["Code_Zone"] == thermal_zone
+            sort_by.append("thermalZone fits")
+            query_parameters["thermalZone"] = thermal_zone
 
 
         # -- get the surrounding --
