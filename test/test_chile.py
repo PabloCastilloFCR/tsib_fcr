@@ -5,6 +5,7 @@ patrón que simulate_santiago_tower_tsib.py: Building5R1C directamente con
 perfiles deterministas inyectados en cfg antes de sim5R1C().
 """
 import os
+import warnings
 
 import numpy as np
 import pandas as pd
@@ -80,6 +81,35 @@ def test_country_cl_accepted():
         "weatherData": tmy,
         "weatherID":   "test_country",
     })
+
+
+def test_direct_archetype_id_is_consumed_without_unused_kwarg_warning():
+    """A direct CL archetype ID selects its row and is not reported unused."""
+    tmy = _make_synthetic_tmy()
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        cfg = tsib.BuildingConfiguration(
+            {
+                "ID": "CL.SFH.RT2.lad.D",
+                "country": "CL",
+                "weatherData": tmy,
+                "weatherID": "test_direct_id",
+                "latitude": -33.45,
+                "longitude": -70.67,
+                "refurbishment": False,
+                "U_Wall_1": 9.9,
+                "U_Roof_1": 1.1,
+                "U_Floor_1": 0.8,
+                "U_Window_1": 2.2,
+            },
+            ignore_profiles=True,
+        ).getBdgCfg(includeSupply=False)
+
+    assert cfg["U_Wall_1"] == pytest.approx(9.9)
+    assert cfg["U_Roof_1"] == pytest.approx(1.1)
+    assert cfg["U_Floor_1"] == pytest.approx(0.8)
+    assert cfg["U_Window"] == pytest.approx(2.2)
+    assert not caught
 
 
 def test_sfh_prenorma_madera_zona_g():

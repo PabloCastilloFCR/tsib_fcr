@@ -248,6 +248,7 @@ class BuildingConfiguration(object):
                 raise ValueError(kwarg + " is not a valid keyword argument")
 
         # fill some of the other kwargs with default values
+        self._explicit_country = kwargs.get("country")
         self.inputKwargs = copy.deepcopy(kwargs)
         if self.inputKwargs.get("country") == "CL":
             for k, v in KWARG_DEFAULTS_CL.items():
@@ -256,6 +257,7 @@ class BuildingConfiguration(object):
         for def_kwarg in KWARG_DEFAULTS:
             if not def_kwarg in self.inputKwargs:
                 self.inputKwargs[def_kwarg] = KWARG_DEFAULTS[def_kwarg]
+        self._is_chilean = self.inputKwargs.get("country") == "CL"
 
         self.IDentries = {}
         # init building configurator
@@ -290,7 +292,9 @@ class BuildingConfiguration(object):
             cl_path = os.path.join(tsib.data.PATH, "episcope", "CL_episcope.csv")
             if os.path.exists(cl_path):
                 cl_raw = pd.read_csv(cl_path, index_col=0)
-                raw = pd.concat([raw, cl_raw])
+                # The two wide catalogue tables otherwise leave pandas with
+                # fragmented blocks before lookup adds its temporary columns.
+                raw = pd.concat([raw, cl_raw]).copy()
             # reduce to the country list of buildings
             self.iwu_bdgs = raw
 
@@ -323,9 +327,12 @@ class BuildingConfiguration(object):
             self.IDentries["costdata"] = cfg["costdata"]
 
             # check if unused kwargs are left
+            unused_kwarg_defaults = dict(KWARG_DEFAULTS)
+            if self._is_chilean:
+                unused_kwarg_defaults.update(KWARG_DEFAULTS_CL)
             for remaining_kwg in self.inputKwargs:
-                if remaining_kwg in KWARG_DEFAULTS:
-                    if not self.inputKwargs[remaining_kwg] == KWARG_DEFAULTS[remaining_kwg]:
+                if remaining_kwg in unused_kwarg_defaults:
+                    if not self.inputKwargs[remaining_kwg] == unused_kwarg_defaults[remaining_kwg]:
                         warnings.warn('Keyword ' + str(remaining_kwg) + ' is not used for the building parameterization.\n')
                     else:
                         logging.info('Keyword ' + str(remaining_kwg) + ' is not used. Nevertheless, it just holds the default value.\n')
@@ -484,7 +491,20 @@ class BuildingConfiguration(object):
         ### Either use predefined building types
         iwu_bdgs = self.iwu_bdgs
         if "ID" in kwgs:
-            iwu_bdg = self.iwu_bdgs.loc[kwgs["ID"],:].to_dict()
+            # ``ID`` is the canonical direct-archetype lookup key.  Consume
+            # it here so the final unused-kwargs check does not incorrectly
+            # warn that it had no effect.
+            archetype_id = kwgs.pop("ID")
+            iwu_bdg = self.iwu_bdgs.loc[archetype_id, :].to_dict()
+            requested_country = kwgs.pop("country", None)
+            if (
+                self._explicit_country is not None
+                and requested_country != iwu_bdg["Code_Country"]
+            ):
+                raise ValueError(
+                    f'Archetype ID "{archetype_id}" belongs to country '
+                    f'"{iwu_bdg["Code_Country"]}", not "{requested_country}".'
+                )
 
 
             cfg['a_ref'] = iwu_bdg['A_C_Ref']
@@ -682,7 +702,7 @@ class BuildingConfiguration(object):
         }
         for _kwarg_key, _cfg_key in _u_kwarg_to_cfg.items():
             if _kwarg_key in kwgs:
-                cfg[_cfg_key] = float(kwgs[_kwarg_key])
+                cfg[_cfg_key] = float(kwgs.pop(_kwarg_key))
 
         return cfg
 
