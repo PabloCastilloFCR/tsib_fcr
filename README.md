@@ -1,8 +1,8 @@
 # tsib-fcr — Time Series Initialization for Buildings (Chile Fork)
 
-**Version 0.2.0-cl** · Fork of [FZJ-IEK3-VSA/tsib](https://github.com/FZJ-IEK3-VSA/tsib) adapted for Chilean residential buildings by [Fraunhofer Chile Research](https://www.fraunhofer.cl).
+**Version 0.2.0+cl** · Fork of [FZJ-IEK3-VSA/tsib](https://github.com/FZJ-IEK3-VSA/tsib) adapted for Chilean residential buildings by [Fraunhofer Chile Research](https://www.fraunhofer.cl).
 
-This fork adapts the ISO 13790 5R1C residential building thermal model to the Chilean context: Chilean building archetypes (pre-normativa and DS50), a BD Ancestral weather adapter, and a solver-free direct simulation path for thermal demand calculation.
+This fork adapts the ISO 13790 5R1C residential building thermal model to the Chilean context: zone-, period-, and material-resolved Chilean building archetypes, a BD Ancestral weather adapter, and a solver-free direct simulation path for thermal demand calculation.
 
 ---
 
@@ -434,7 +434,7 @@ tsib/
     model5R1C.py             — Building5R1C: 5R1C model + sim_demand_direct + sim5R1C
   data/episcope/
     episcope.csv             — TABULA/EPISCOPE EU archetypes (upstream, read-only)
-    CL_episcope.csv          — Chilean archetypes (27 rows)
+    CL_episcope.csv          — Chilean archetypes (810 resolved rows)
   weather/
     testreferenceyear.py     — German DWD TRY adapter
     chile.py                 — BD Ancestral TMY adapter (bd_tmy_to_tsib)

@@ -1,7 +1,8 @@
 # tsib_fcr — CLAUDE.md
 
 Fork of [FZJ-IEK3-VSA/tsib](https://github.com/FZJ-IEK3-VSA/tsib) adapting the 5R1C residential building thermal model for Chile.
-**Full implementation spec is in [`tsib_fcr_CLAUDE.md`](tsib_fcr_CLAUDE.md)** — read it before implementing anything.
+
+This file is the active engineering guide. [`tsib_fcr_CLAUDE.md`](tsib_fcr_CLAUDE.md) is an archived, superseded prototype specification; do not use it for implementation decisions.
 
 ---
 
@@ -35,7 +36,7 @@ python -c "from pyomo.contrib import appsi; s = appsi.solvers.Highs(); print(s.a
 | 3b | Export `bd_tmy_to_tsib` from package | `tsib/__init__.py` | ✅ |
 | 4 | Verify HiGHS solver works | env | ✅ |
 | 5 | Create `test/test_chile.py` (3 smoke tests) | `test/test_chile.py` | ✅ |
-| 6 | Bump version to `0.2.0-cl`, update package name | `setup.py` | ✅ |
+| 6 | Bump version to PEP 440-compliant `0.2.0+cl`, update package name | `setup.py` | ✅ |
 | 7 | Hourly setpoints + HVAC availability mask in `sim_demand_direct` | `tsib/thermal/model5R1C.py` | ✅ |
 | 8 | Normalize `Q_ig` (scalar/array/Series) via `as_hourly_series` | `tsib/thermal/model5R1C.py`, `tsib/profiles.py` | ✅ |
 | 9 | `calculate_dhw_load` + profile utilities | `tsib/profiles.py` | ✅ |
@@ -62,7 +63,7 @@ tsib/
   buildingmodel.py      ← Building class (calls buildingconfig + 5R1C)
   profiles.py           ← as_hourly_series, calculate_dhw_load, normalize_daily_shape,
                            normalize_profile_to_annual_energy, convert_thermal_to_final
-  thermal/model5R1C.py  ← Pyomo LP/MILP optimization (requires solver) + sim_demand_direct
+  thermal/model5R1C.py  ← Pyomo LP/MILP optimization (requires solver) + solver-free sim_demand_direct
   data/episcope/
     episcope.csv        ← TABULA/EPISCOPE EU archetypes (read-only)
     CL_episcope.csv     ← Chile archetypes, fully resolved (810 rows: 3 types x 5 periods x 6 materials x 9 zones)
@@ -73,7 +74,7 @@ tsib/
     build_cl_episcope.py     ← merges CL_episcope_base.csv + build_cl_zone_uvalues output -> CL_episcope.csv, not imported at runtime
   weather/
     testreferenceyear.py ← German TRY adapter
-    chile.py            ← BD Ancestral TMY adapter (to be created)
+    chile.py            ← BD Ancestral TMY adapter, including t_mains handling
 ```
 
 ### How archetype lookup works
