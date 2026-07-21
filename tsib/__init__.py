@@ -1,6 +1,7 @@
 from .buildingmodel import Building
 from .buildingconfig import BuildingConfiguration
 from .weather.chile import bd_tmy_to_tsib
+from .setpoints import get_chile_monthly_setpoints
 from .weather.testreferenceyear import readTRY, TRY2TMY, getISO12831weather
 from .weather.other import readCosmo
 from .renewables.fireplace import simFireplace

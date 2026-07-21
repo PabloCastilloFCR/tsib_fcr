@@ -16,6 +16,7 @@ import numpy as np
 import tsib
 import tsib.data
 from .profiles import build_default_occupancy_profiles
+from .setpoints import get_chile_monthly_setpoints
 
 
 HEAT_TECHS = [
@@ -109,6 +110,7 @@ KWARG_TYPES = {
     "g_gl_n": float,
     "material": ["mad", "lad", "hor", "met", "prefab", "adobe"],  # envelope material, selects the matching CL_episcope.csv archetype row
     "thermalZone": ["A", "B", "C", "D", "E", "F", "G", "H", "I"],  # CL thermal zone (zona_termica), selects the matching CL_episcope.csv archetype row
+    "setpointProfile": ["constant", "chile_monthly"],
 }
 
 KWARG_DEFAULTS_CL = {
@@ -156,6 +158,7 @@ KWARG_DEFAULTS = {
     "autoProfileDhwLitersPerPersonDay": 40.0,
     "autoProfileDhwTargetTempC": 55.0,
     "holidays": None,
+    "setpointProfile": "constant",
     "costdata": "default_2016",
     "ventControl": False, # if the ventilation system can be intelligently operated
 }
@@ -356,6 +359,18 @@ class BuildingConfiguration(object):
                 self.inputKwargs.pop("autoProfileElectricityKwhPerApartment")
                 self.inputKwargs.pop("autoProfileDhwLitersPerPersonDay")
                 self.inputKwargs.pop("autoProfileDhwTargetTempC")
+
+            cfg["setpointProfile"] = self.inputKwargs.pop("setpointProfile")
+            if cfg["setpointProfile"] == "chile_monthly":
+                thermal_zone = cfg.get("thermalZone")
+                if thermal_zone is None:
+                    raise ValueError(
+                        "setpointProfile='chile_monthly' requires a Chilean "
+                        "archetype with a thermal zone."
+                    )
+                setpoints = get_chile_monthly_setpoints(cfg["weather"].index, thermal_zone)
+                cfg["heatingSetpointProfile"] = setpoints["Heating Setpoint"]
+                cfg["coolingSetpointProfile"] = setpoints["Cooling Setpoint"]
 
             # check if cost data file exists
             if not os.path.exists(
@@ -559,6 +574,7 @@ class BuildingConfiguration(object):
             # own range start; pop it so it doesn't trip the unused-kwarg check
             cfg['buildingYear'] = kwgs.pop('buildingYear', iwu_bdg['Year1_Building'])
             cfg["n_apartments"] = iwu_bdg["n_Apartment"]
+            cfg["thermalZone"] = iwu_bdg.get("Code_Zone")
 
             return cfg, iwu_bdg
 
@@ -680,6 +696,8 @@ class BuildingConfiguration(object):
         else:
             cfg["n_apartments"] = iwu_bdg["n_Apartment"]
             logging.info('number of app. "n_apartments" is inherited from IWU')
+
+        cfg["thermalZone"] = iwu_bdg.get("Code_Zone")
 
         return cfg, iwu_bdg
     

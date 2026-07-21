@@ -1320,6 +1320,11 @@ class Building5R1C(object):
         A_f    = M_tmp.bA_f                        # floor area [m²]
 
         # ── step 2b: resolve hourly setpoints and availability masks ──
+        if heating_setpoint is None and self.cfg.get("setpointProfile") == "chile_monthly":
+            heating_setpoint = self.cfg["heatingSetpointProfile"]
+        if cooling_setpoint is None and self.cfg.get("setpointProfile") == "chile_monthly":
+            cooling_setpoint = self.cfg["coolingSetpointProfile"]
+
         T_lb_arr = (
             np.full(N, float(M_tmp.bT_comf_lb))
             if heating_setpoint is None

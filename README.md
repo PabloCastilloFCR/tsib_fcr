@@ -358,6 +358,30 @@ model.sim_demand_direct(
 
 `sim_demand()` is an alias for `sim_demand_direct()` kept for backwards compatibility (called with no arguments, same as before).
 
+### Optional Chilean monthly setpoints
+
+The default remains the constant comfort bounds in the building configuration.
+For a Chilean archetype, set `setpointProfile="chile_monthly"` to use the
+month-by-zone table in `tsib/data/chile/thermal_setpoints_by_zone_month.csv`
+automatically when `sim_demand_direct()` is called without explicit setpoints:
+
+```python
+cfg = tsib.BuildingConfiguration({
+    "country": "CL", "buildingYear": 2010, "buildingType": "SFH",
+    "material": "lad", "thermalZone": "D", "a_ref": 60.0,
+    "weatherData": tmy, "weatherID": "my_location",
+    "setpointProfile": "chile_monthly",
+}, ignore_profiles=True).getBdgCfg()
+
+model = tsib.Building5R1C(cfg)
+model.sim_demand_direct()  # uses the monthly Chilean heating/cooling series
+```
+
+For explicit control, call `tsib.get_chile_monthly_setpoints(tmy.index, "D")`;
+it returns a DataFrame with `"Heating Setpoint"` and `"Cooling Setpoint"`.
+The source table retains zone J from the provided source, but the current
+archetype catalogue supports only zones A–I and the helper rejects J.
+
 The original `sim5R1C()` method remains available for full refurbishment optimization (requires a Pyomo-compatible LP solver); the setpoint/availability arguments above are only supported by the direct path.
 
 ---

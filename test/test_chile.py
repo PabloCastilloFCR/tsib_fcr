@@ -180,6 +180,43 @@ def test_default_profiles_match_documented_merlin_reference_shapes():
     assert cfg["hotWaterLoad"].sum() > 0
 
 
+def test_chile_monthly_setpoint_helper_and_zone_j_guard():
+    index = pd.DatetimeIndex(["2010-01-01 12:00", "2010-07-01 12:00"])
+    setpoints = tsib.get_chile_monthly_setpoints(index, "D")
+
+    assert setpoints["Heating Setpoint"].tolist() == pytest.approx([21.6, 18.6])
+    assert setpoints["Cooling Setpoint"].tolist() == pytest.approx([26.6, 23.6])
+    assert (setpoints["Cooling Setpoint"] > setpoints["Heating Setpoint"]).all()
+    with pytest.raises(ValueError, match="Zone J"):
+        tsib.get_chile_monthly_setpoints(index, "J")
+
+
+def test_chile_monthly_setpoint_profile_is_used_by_direct_simulation():
+    tmy = _make_synthetic_tmy().iloc[:48]
+    cfg = tsib.BuildingConfiguration(
+        {
+            "ID": "CL.SFH.RT2.lad.D",
+            "country": "CL",
+            "weatherData": tmy,
+            "weatherID": "test_monthly_setpoints",
+            "latitude": -33.45,
+            "longitude": -70.67,
+            "refurbishment": False,
+            "setpointProfile": "chile_monthly",
+        },
+        ignore_profiles=True,
+    ).getBdgCfg(includeSupply=False)
+
+    assert cfg["thermalZone"] == "D"
+    assert cfg["heatingSetpointProfile"].iloc[0] == pytest.approx(21.6)
+    assert cfg["coolingSetpointProfile"].iloc[0] == pytest.approx(26.6)
+
+    model = tsib.Building5R1C(cfg)
+    model.sim_demand_direct()
+    assert model.detailedResults["Heating Setpoint"].iloc[0] == pytest.approx(21.6)
+    assert model.detailedResults["Cooling Setpoint"].iloc[0] == pytest.approx(26.6)
+
+
 def test_sfh_prenorma_madera_zona_g():
     """SFH pre-norma madera en zona G (fría): demanda específica debe ser alta."""
     tmy = _make_synthetic_tmy(T_mean=5.0)
