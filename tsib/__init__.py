@@ -9,6 +9,7 @@ from .renewables.heatpump import simHeatpump
 from .thermal.model5R1C import Building5R1C
 from .profiles import (
     as_hourly_series,
+    build_default_occupancy_profiles,
     normalize_daily_shape,
     normalize_profile_to_annual_energy,
     calculate_dhw_load,

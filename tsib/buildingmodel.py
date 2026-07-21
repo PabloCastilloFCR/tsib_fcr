@@ -237,6 +237,25 @@ class Building(object):
         electricity load and occupants activity.
         """
 
+        profile_keys = ("Q_ig", "occ_nothome", "occ_sleeping", "elecLoad", "hotWaterLoad")
+        if all(key in cfg for key in profile_keys):
+            logging.info("Using occupancy profiles already present in the building configuration.")
+            profiles = pd.DataFrame(index=self.timeseries.index)
+            profiles["Electricity Load"] = cfg["elecLoad"].values
+            profiles["Hot Water Load"] = cfg["hotWaterLoad"].values
+            self.units.update({"Electricity Load": "kW_{el}", "Hot Water Load": "kW_{th}"})
+            self._occupancy_profile_names = profiles.columns.values
+            self.timeseries = self.timeseries.join(profiles)
+            self._has_occupancy_profiles = True
+            return cfg
+
+        if not hasattr(tsib, "getHouseholdProfiles"):
+            raise RuntimeError(
+                "No occupancy profiles are configured and the historical tsorb-based "
+                "profile generator is unavailable. Leave autoProfiles=True (default) "
+                "or provide Q_ig, occ_nothome, occ_sleeping, elecLoad and hotWaterLoad."
+            )
+
         logging.info('Occupancy profiles are simulated. ' 
                     + 'This can take a few minutes.')
 

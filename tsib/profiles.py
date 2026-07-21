@@ -117,6 +117,121 @@ def normalize_daily_shape(index, daily_shape_weekday, daily_shape_weekend, holid
     return pd.Series(values, index=index)
 
 
+_OCC_SLEEPING_WEEKDAY = np.array(
+    [0.95, 0.98, 0.98, 0.98, 0.95, 0.80, 0.35, 0.05, 0.00, 0.00, 0.00, 0.00,
+     0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.05, 0.35, 0.75]
+)
+_OCC_NOTHOME_WEEKDAY = np.array(
+    [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.10, 0.35, 0.65, 0.75, 0.78, 0.75,
+     0.65, 0.70, 0.75, 0.72, 0.60, 0.35, 0.15, 0.08, 0.04, 0.02, 0.00, 0.00]
+)
+_OCC_SLEEPING_WEEKEND = np.array(
+    [0.95, 0.98, 0.98, 0.98, 0.95, 0.85, 0.60, 0.30, 0.10, 0.02, 0.00, 0.00,
+     0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.02, 0.08, 0.35, 0.75]
+)
+_OCC_NOTHOME_WEEKEND = np.array(
+    [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.02, 0.05, 0.10, 0.18, 0.25, 0.30,
+     0.32, 0.35, 0.35, 0.32, 0.28, 0.20, 0.12, 0.08, 0.05, 0.02, 0.00, 0.00]
+)
+_ELECTRICITY_WEEKDAY = np.array(
+    [0.45, 0.40, 0.38, 0.36, 0.36, 0.45, 0.75, 0.95, 0.70, 0.55, 0.50, 0.52,
+     0.58, 0.55, 0.52, 0.55, 0.70, 1.05, 1.35, 1.55, 1.45, 1.10, 0.80, 0.60]
+)
+_ELECTRICITY_WEEKEND = np.array(
+    [0.55, 0.50, 0.45, 0.42, 0.42, 0.48, 0.65, 0.85, 1.00, 0.95, 0.85, 0.78,
+     0.78, 0.75, 0.72, 0.75, 0.90, 1.10, 1.30, 1.45, 1.35, 1.05, 0.85, 0.68]
+)
+_DHW_WEEKDAY = np.array(
+    [0.01, 0.00, 0.00, 0.00, 0.01, 0.04, 0.10, 0.13, 0.08, 0.04, 0.03, 0.04,
+     0.05, 0.04, 0.03, 0.03, 0.04, 0.07, 0.10, 0.12, 0.10, 0.08, 0.04, 0.02]
+)
+_DHW_WEEKEND = np.array(
+    [0.01, 0.00, 0.00, 0.00, 0.01, 0.02, 0.05, 0.08, 0.11, 0.10, 0.08, 0.06,
+     0.05, 0.04, 0.04, 0.04, 0.05, 0.07, 0.10, 0.12, 0.10, 0.08, 0.04, 0.02]
+)
+
+
+def _integer_occupancy_counts(active, sleeping, nothome, persons):
+    """Convert state fractions to integer persons using the largest remainder."""
+    raw = np.column_stack([active, sleeping, nothome]) * persons
+    counts = np.floor(raw).astype(int)
+    missing = persons - counts.sum(axis=1)
+    fractions = raw - counts
+    for row, remainder in enumerate(missing):
+        if remainder:
+            selected = np.argsort(-fractions[row])[:remainder]
+            counts[row, selected] += 1
+    return counts
+
+
+def build_default_occupancy_profiles(
+    index,
+    persons,
+    n_apartments=1,
+    annual_electricity_kwh_per_apartment=2500.0,
+    dhw_liters_per_person_day=40.0,
+    dhw_target_temp_c=55.0,
+    t_mains=None,
+    holidays=None,
+):
+    """Build the documented MERLIN_RCP deterministic residential profiles.
+
+    Weekday/weekend occupancy, electricity and DHW shapes come from
+    ``feature-request/perfiles_horarios_tsib_fcr.md``.  Values are transparent
+    defaults for integration and sensitivity analysis, not calibrated Chilean
+    measurements. ``persons`` is per apartment; power and DHW series are
+    aggregated over ``n_apartments``.
+    """
+    index = pd.DatetimeIndex(index)
+    persons = int(persons)
+    n_apartments = int(n_apartments)
+    if persons < 1 or n_apartments < 1:
+        raise ValueError("'persons' and 'n_apartments' must both be at least 1.")
+
+    sleeping = normalize_daily_shape(
+        index, _OCC_SLEEPING_WEEKDAY, _OCC_SLEEPING_WEEKEND, holidays=holidays
+    )
+    nothome = normalize_daily_shape(
+        index, _OCC_NOTHOME_WEEKDAY, _OCC_NOTHOME_WEEKEND, holidays=holidays
+    )
+    active = 1.0 - sleeping - nothome
+
+    electricity_shape = normalize_daily_shape(
+        index, _ELECTRICITY_WEEKDAY, _ELECTRICITY_WEEKEND, holidays=holidays
+    )
+    electricity_weights = electricity_shape * (0.35 + 0.85 * active)
+    target_kwh = annual_electricity_kwh_per_apartment * n_apartments * len(index) / 8760.0
+    elec_load = electricity_weights / electricity_weights.sum() * target_kwh
+
+    counts = _integer_occupancy_counts(
+        active.to_numpy(), sleeping.to_numpy(), nothome.to_numpy(), persons
+    )
+    active_persons = counts[:, 0] * n_apartments
+    sleeping_persons = counts[:, 1] * n_apartments
+    present_persons = active_persons + sleeping_persons
+    q_ig = active_persons * 0.10 + sleeping_persons * 0.07 + 0.15 * elec_load.to_numpy()
+
+    if t_mains is None:
+        t_mains = np.full(len(index), 10.0)
+    dhw_shape = normalize_daily_shape(index, _DHW_WEEKDAY, _DHW_WEEKEND, holidays=holidays)
+    dhw = calculate_dhw_load(
+        index=index,
+        persons=present_persons,
+        liters_per_person_day=dhw_liters_per_person_day,
+        target_temp_c=dhw_target_temp_c,
+        t_mains=t_mains,
+        profile=dhw_shape,
+    )
+
+    return {
+        "Q_ig": q_ig,
+        "occ_nothome": nothome,
+        "occ_sleeping": sleeping,
+        "elecLoad": elec_load,
+        "hotWaterLoad": dhw["DHW Load"],
+    }
+
+
 def calculate_dhw_load(
     index,
     persons,

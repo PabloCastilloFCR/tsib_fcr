@@ -112,6 +112,74 @@ def test_direct_archetype_id_is_consumed_without_unused_kwarg_warning():
     assert not caught
 
 
+def test_default_profiles_enable_direct_simulation_without_manual_injection():
+    """The deterministic fallback makes the solver-free path self-contained."""
+    tmy = _make_synthetic_tmy().iloc[:48]
+    cfg = tsib.BuildingConfiguration(
+        {
+            "ID": "CL.SFH.RT2.lad.D",
+            "country": "CL",
+            "weatherData": tmy,
+            "weatherID": "test_auto_profiles",
+            "latitude": -33.45,
+            "longitude": -70.67,
+            "refurbishment": False,
+        },
+        ignore_profiles=True,
+    ).getBdgCfg(includeSupply=False)
+
+    assert cfg["occupancyProfileSource"] == "deterministic_merlin_reference"
+    assert len(cfg["Q_ig"]) == len(tmy)
+    assert cfg["elecLoad"].index.equals(tmy.index)
+    assert cfg["Q_ig"].min() > 0
+
+    model = tsib.Building5R1C(cfg)
+    model.sim_demand_direct()
+    assert len(model.detailedResults) == len(tmy)
+
+
+def test_auto_profiles_can_be_disabled_for_explicit_profile_control():
+    tmy = _make_synthetic_tmy().iloc[:24]
+    cfg = tsib.BuildingConfiguration(
+        {
+            "ID": "CL.SFH.RT2.lad.D",
+            "country": "CL",
+            "weatherData": tmy,
+            "weatherID": "test_no_auto_profiles",
+            "latitude": -33.45,
+            "longitude": -70.67,
+            "refurbishment": False,
+            "autoProfiles": False,
+        },
+        ignore_profiles=True,
+    ).getBdgCfg(includeSupply=False)
+
+    assert "Q_ig" not in cfg
+    assert "occupancyProfileSource" not in cfg
+
+
+def test_default_profiles_match_documented_merlin_reference_shapes():
+    tmy = _make_synthetic_tmy()
+    cfg = tsib.BuildingConfiguration(
+        {
+            "ID": "CL.SFH.RT2.lad.D",
+            "country": "CL",
+            "weatherData": tmy,
+            "weatherID": "test_reference_profiles",
+            "latitude": -33.45,
+            "longitude": -70.67,
+            "refurbishment": False,
+        },
+        ignore_profiles=True,
+    ).getBdgCfg(includeSupply=False)
+
+    # 2010-01-01 is Friday, so the weekday table applies at these hours.
+    assert cfg["occ_sleeping"].iloc[7] == pytest.approx(0.05)
+    assert cfg["occ_nothome"].iloc[7] == pytest.approx(0.35)
+    assert cfg["elecLoad"].sum() == pytest.approx(2500.0)
+    assert cfg["hotWaterLoad"].sum() > 0
+
+
 def test_sfh_prenorma_madera_zona_g():
     """SFH pre-norma madera en zona G (fría): demanda específica debe ser alta."""
     tmy = _make_synthetic_tmy(T_mean=5.0)

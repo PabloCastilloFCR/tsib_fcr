@@ -128,7 +128,25 @@ dhw = tsib.calculate_dhw_load(
 
 See the "`sim_demand_direct()`" and "Domestic hot water" sections below for details.
 
-### 4. Occupancy profiles — currently unavailable in this fork
+### 4. Occupancy profiles
+
+When no behavioural profiles are supplied, `BuildingConfiguration` now creates
+the deterministic weekday/weekend reference profiles documented in
+[`feature-request/perfiles_horarios_tsib_fcr.md`](feature-request/perfiles_horarios_tsib_fcr.md)
+(`autoProfiles=True`). They populate `Q_ig`, `occ_nothome`, `occ_sleeping`,
+`elecLoad`, and `hotWaterLoad`; electricity is normalized to 2500
+kWh/vivienda-año by default, and DHW uses 40 L/persona/día at 55 °C with
+hourly `t_mains`. The profiles scale with `n_persons` and `n_apartments`, and
+accept `holidays` to apply the weekend shape on specific dates. They are
+transparent prototype assumptions, **not** calibrated occupancy data. Disable
+this fallback with `autoProfiles=False` when the caller will supply every
+profile explicitly.
+
+You can always overwrite the generated values after `getBdgCfg()`, as in the
+example above. For meaningful DHW demand, use `calculate_dhw_load()`; the
+legacy `hotWaterLoad` fallback is intentionally zero.
+
+### Historical stochastic occupancy profiles — unavailable in this fork
 
 `tsib.getHouseholdProfiles()` (upstream tsib's stochastic occupancy/electricity/DHW
 generator, built on the `tsorb` package) was **removed from this fork** in commit
